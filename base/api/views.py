@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from base.api.serializers import VideosListSerializer
+from base.api.serializers import CommentsListSerializer, RepCommentListSerializer, VideosListSerializer
 
-from base.models import ViSource
+from base.models import ViSource,Comment,RepComment
 
 
 # Create your views here.
@@ -54,7 +54,22 @@ def getVideos(request):
 @api_view(['GET'])
 def getVideo(request,pk):
     if request.method == "GET":
-        videosList = ViSource.objects.get(uuid=pk)
-        serializers = VideosListSerializer(videosList, many=False)
+        videos = ViSource.objects.get(uuid=pk)
+        serializers = VideosListSerializer(videos, many=False)
         return Response(serializers.data)
 
+
+@api_view(['GET'])
+def getComment(request,pk):
+    if request.method == "GET":
+        comment = Comment.objects.filter(post_id=pk)
+        serializers = CommentsListSerializer(comment, many=True)
+        return Response(serializers.data)
+
+
+@api_view(['GET'])
+def getRepComment(request,pk):
+    if request.method == "GET":
+        comment = RepComment.objects.filter(comment_id=pk)
+        serializers = RepCommentListSerializer(comment, many=True)
+        return Response(serializers.data)
