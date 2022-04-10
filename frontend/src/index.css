@@ -15,3 +15,6 @@ code {
 .ant-row{
   margin: 0!important;
 }
+.App{
+  padding: 0 50px;
+}

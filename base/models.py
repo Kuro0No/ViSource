@@ -1,5 +1,6 @@
 from distutils.log import error
 from email.policy import default
+from enum import unique
 from django.db import models
 import uuid
 from multiselectfield import MultiSelectField
@@ -25,8 +26,8 @@ from django.contrib.auth.models import AbstractUser
 class ViSource(models.Model):
     
     title = models.CharField(max_length=100)
-    video= models.FileField(upload_to='videos', null=True)
-    image = models.FileField(upload_to='images',null=True)
+    video= models.FileField(upload_to='videos/', null=True)
+    image = models.FileField(upload_to='images/',null=True)
     description = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add = True, null=True)
     # author = models.ForeignKey(on_delete=CASCADE)
@@ -43,6 +44,14 @@ class ViSource(models.Model):
 
     def __str__(self):
         return f"{self.title[0:10]} "
+
+
+
+class Sector(models.Model):
+    name= models.CharField(max_length=255)
+    sector_uuid = models.UUIDField(default=uuid.uuid4, unique=True)
+    ralated_video = models.ManyToManyField('ViSource')
+    sector_image = models.ImageField(upload_to='sector_image', null=True,blank=True)
     
 class Comment(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -74,4 +83,4 @@ class RepComment(models.Model):
     #     ordering = ['-updated', '-created']
 
     def __str__(self):
-        return self.content[0:50]
+        return f'Reply to: {self.comment_id}'

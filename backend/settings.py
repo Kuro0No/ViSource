@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'multiselectfield',
     "corsheaders",
+    'user'
+    # 'djoser',
 
 ]
 
@@ -125,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 MEDIA_URL = '/base/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '/base/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'base/media/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -133,3 +135,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '/base/media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# AUTH_USER_MODEL ='user.'

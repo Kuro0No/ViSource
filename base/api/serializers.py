@@ -1,7 +1,8 @@
 from dataclasses import field
+from pyexpat import model
 from rest_framework.serializers import ModelSerializer
 
-from base.models import ViSource, Comment
+from base.models import RepComment, ViSource, Comment
 
 
 
@@ -17,6 +18,11 @@ class CommentsListSerializer(ModelSerializer):
         
 class RepCommentListSerializer(ModelSerializer):
     class Meta:
-        model= Comment
+        model= RepComment
         fields = '__all__'
-        
+    
+
+# class RelatedVideoSerializer(ModelSerializer):
+#     class Meta: 
+#         model= RelatedVideo
+#         fields = '__all__'

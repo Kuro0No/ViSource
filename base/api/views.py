@@ -73,3 +73,6 @@ def getRepComment(request,pk):
         comment = RepComment.objects.filter(comment_id=pk)
         serializers = RepCommentListSerializer(comment, many=True)
         return Response(serializers.data)
+
+
+
