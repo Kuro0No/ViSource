@@ -1,11 +1,13 @@
 from distutils.log import error
 from email.policy import default
 from enum import unique
+from pyexpat import model
 from django.db import models
 import uuid
 from multiselectfield import MultiSelectField
 from django.contrib.auth.models import AbstractUser
-
+from user.models import User
+# from ..user.models import User
 
 # Create your models here.
 
@@ -30,7 +32,7 @@ class ViSource(models.Model):
     image = models.FileField(upload_to='images/',null=True)
     description = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add = True, null=True)
-    # author = models.ForeignKey(on_delete=CASCADE)
+    author = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     uuid = models.UUIDField(primary_key = True, default =uuid.uuid4, unique=True, editable=False )
     
     MY_CHOICES = [
@@ -54,7 +56,7 @@ class Sector(models.Model):
     sector_image = models.ImageField(upload_to='sector_image', null=True,blank=True)
     
 class Comment(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     post_id =models.ForeignKey(ViSource, on_delete=models.CASCADE)
     content = models.TextField(null=True, blank=True)
     image=models.ImageField(null=True,blank=True)
@@ -71,7 +73,7 @@ class Comment(models.Model):
 
 
 class RepComment(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     comment_id =models.ForeignKey(Comment, on_delete=models.CASCADE)
     content = models.TextField(null=True, blank=True)
     image=models.ImageField(null=True,blank=True)

@@ -1,9 +1,68 @@
+from os import access
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from base.api.serializers import CommentsListSerializer, RepCommentListSerializer, VideosListSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 from base.models import ViSource,Comment,RepComment
 
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+# class TokenObtainPairSerializer(TokenObtainPairSerializer):
+#     @classmethod
+#     def get_token(cls, user):
+#         # token = super().get_token(user)
+
+#         # Add custom claims
+#         # token['name'] = user.name
+#         # token['email'] = user
+#         # print(user)
+#         # ...
+
+#         return RefreshToken.for_user(user)
+
+#     def validate(self,attrs):
+#         data=super().validate(attrs)
+#         refresh = self.get_token(self.user)
+#         data['refresh'] = str(refresh)
+#         data['access'] = str(refresh.access_token)
+
+#         return data
+
+# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     def validate(self, attrs):
+#         data = super().validate(attrs)
+#         refresh = self.get_token(self.user)
+#         data['refresh'] = str(refresh)
+#         data['access'] = str(refresh.access_token)
+
+#         # Add extra responses here
+#         data['name'] = self.user.name
+#         # data['avatar'] = self.user.avatar
+#         return data
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['name'] = user.name
+        # ...
+
+        return token
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 # Create your views here.
 @api_view(['GET'])

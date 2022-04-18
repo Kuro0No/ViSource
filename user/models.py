@@ -1,79 +1,68 @@
-from base.models import ViSource
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin
 
-# class UserManager(BaseUserManager):
-#     use_in_migrations=True
-#     def create_superuser(self,email,password,name,**other_fields):
-#         other_fields.setdefault('is_staff',True)
-#         other_fields.setdefault('is_superuser',True)
-#         other_fields.setdefault('is_author',True)
-
-
-#         if other_fields.get('is_staff') is not True:
-#             return ValueError('Superuser must be assign is_staff=True')
-
-#         if other_fields.get('is_superuser') is not True:
-#             return ValueError('Superuser must be assign is_superuser=True')
-
-#         if other_fields.get('is_author') is not True:
-#             return ValueError('Superuser must be assign is_author=True')
-
-#         return self.create_user(email,password,name,**other_fields)
+class UserManager(BaseUserManager):
+    use_in_migrations=True
+    def create_superuser(self,email,password,name,**other_fields):
+        other_fields.setdefault('is_staff',True)
+        other_fields.setdefault('is_superuser',True)
+        # other_fields.setdefault('is_author',True)
 
 
-#     # def create_author(self,email,password,name,**other_fields):
-#     #     other_fields.setdefault('is_staff',False)
-#     #     other_fields.setdefault('is_superuser',False)
-#     #     other_fields.setdefault('is_author',True)
+        if other_fields.get('is_staff') is not True:
+            return ValueError('Superuser must be assign is_staff=True')
 
-#     #     if other_fields.get('is_author') is not True:
-#     #         return ValueError('Author must be assign is_author=True')
+        if other_fields.get('is_superuser') is not True:
+            return ValueError('Superuser must be assign is_superuser=True')
 
-#     #     return self.create_user(email,password,name,**other_fields)
+        # if other_fields.get('is_author') is not True:
+        #     return ValueError('Superuser must be assign is_author=True')
+
+        return self.create_user(email,password,name,**other_fields)
 
 
-#     def create_user(self,email,password,name,**other_fields):
+    # def create_author(self,email,password,name,**other_fields):
+    #     other_fields.setdefault('is_staff',False)
+    #     other_fields.setdefault('is_superuser',False)
+    #     other_fields.setdefault('is_author',True)
 
-#         if not email:
-#             raise ValueError('You must provide a valid email')
+    #     if other_fields.get('is_author') is not True:
+    #         return ValueError('Author must be assign is_author=True')
 
-#         email=self.normalize_email(email)
+    #     return self.create_user(email,password,name,**other_fields)
 
-#         user=self.model(email=email,name=name,**other_fields)
 
-#         user.set_password(password)
+    def create_user(self,email,password,name,**other_fields):
 
-#         user.save()
+        if not email:
+            raise ValueError('You must provide a valid email')
 
-#         return user
+        email=self.normalize_email(email)
+
+        user=self.model(email=email,name=name,**other_fields)
+
+        user.set_password(password)
+
+        user.save()
+
+        return user
         
 
-class User(AbstractBaseUser):
-    name=models.CharField(max_length=225,null=True)
+class User(AbstractBaseUser,PermissionsMixin):
+    name=models.CharField(max_length=225,default='https://vnn-imgs-f.vgcloud.vn/2020/03/23/11/trend-avatar-1.jpg',blank=True)
     email=models.EmailField(max_length=225,unique=True)
     created=models.DateTimeField(auto_now_add=True)
-    password =models.CharField(max_length=255,null=True)
-    username = None
-
+    avatar = models.ImageField(upload_to='images/' ,null=True, blank=True)
     is_active=models.BooleanField(default=True)
     is_staff=models.BooleanField(default=False)
-    is_author=models.BooleanField(default=False)
-    # is_superuser=models.BooleanField(default=False)
+    is_superuser=models.BooleanField(default=False)
 
     USERNAME_FIELD='email'
     REQUIRED_FIELDS=['name']
 
-    # objects=UserManager()
-
-    def get_full_name(self):
-        return self.name
-
-    def get_short_name(self):
-        return self.name
+    objects=UserManager()
 
     def __str__(self):
         return self.email
 
-   
-   
+    

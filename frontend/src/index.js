@@ -2,16 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {BrowserRouter} from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+import { AuthProvider } from './hooks/useAuth';
+// import { useAuthProvider } from './hooks/useAuth'
 
 
 ReactDOM.render(
-  <React.StrictMode>
+ 
+
     <BrowserRouter>
-      <App />
+      <AuthProvider>
+
+        <App />
+      </AuthProvider>
+
     </BrowserRouter>
-  </React.StrictMode>,
+ ,
   document.getElementById('root')
 );
 

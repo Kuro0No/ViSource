@@ -1,5 +1,14 @@
 .header-container {
     background: #ccc!important;
+    margin-bottom: 30px;
+    ul{
+        margin: 0;
+        display: flex;
+        li{
+            padding: 0 10px;
+           
+        }
+    }
 }
 
 // .ant-layout-content{}
