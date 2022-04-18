@@ -1,3 +1,5 @@
+from email.policy import default
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin
 
@@ -49,10 +51,12 @@ class UserManager(BaseUserManager):
         
 
 class User(AbstractBaseUser,PermissionsMixin):
-    name=models.CharField(max_length=225,default='https://vnn-imgs-f.vgcloud.vn/2020/03/23/11/trend-avatar-1.jpg',blank=True)
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # user_id= models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True)
+    name=models.CharField(max_length=225)   
     email=models.EmailField(max_length=225,unique=True)
     created=models.DateTimeField(auto_now_add=True)
-    avatar = models.ImageField(upload_to='images/' ,null=True, blank=True)
+    avatar = models.ImageField(upload_to='avatar/' ,default='avatar/defaultAvatar.jpg', blank=True)
     is_active=models.BooleanField(default=True)
     is_staff=models.BooleanField(default=False)
     is_superuser=models.BooleanField(default=False)
