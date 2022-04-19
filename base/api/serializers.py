@@ -4,22 +4,31 @@ from rest_framework.serializers import ModelSerializer,SerializerMethodField
 
 from base.models import RepComment, ViSource, Comment
 from user.serializers import UserSerializer
-from django.db.models import Count
+
+
+
+
 
 
 
 class VideosListSerializer(ModelSerializer):
+    author =  UserSerializer(read_only=False)
     class Meta:
         model= ViSource
         fields = '__all__'
         
 class CommentsListSerializer(ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserSerializer(read_only=False)
     count_rep_comments = SerializerMethodField()
 
     class Meta:
         model= Comment
         fields = '__all__'
+    
+    # def create(self,validate_data):
+    #     user = Comment.objects.create(user=validate_data['user']['id'], name=validate_data['name'])
+
+    #     return user
     
     def get_count_rep_comments(self, obj):
             count_rep_comment = RepComment.objects.filter(comment_id=obj.id)
@@ -27,7 +36,7 @@ class CommentsListSerializer(ModelSerializer):
             return total
         
 class RepCommentListSerializer(ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserSerializer(read_only=False)
     class Meta:
         model= RepComment
         fields = '__all__'

@@ -10,40 +10,70 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
-    
-    const [user, setUser] = useState(() => localStorage.getItem('authTokens') ? localStorage.getItem('authTokens') : null)
+
+    const [user, setUser] = useState(() => localStorage.getItem('authTokens') ?jwt_decode( localStorage.getItem('authTokens')) : null)
     const [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     const navigate = useNavigate()
 
     const register = async (e) => {
 
-        const res = await axios.post(`http://localhost:8000/api/user/register/`, {
-            email: e.email,
-            name: e.username,
-            password: e.password,
+        try {
+            const res = await axios.post(`http://localhost:8000/api/user/register/`, {
+                email: e.email,
+                name: e.username,
+                password: e.password,
 
-        })
+            })
+            navigate('/login')
+        } catch {
+            alert('Failed to register')
+        }
 
     }
-    const loginUser = async (e) => {
+    const loginUser = (e) => {
+
+        // try {
+        //     const res = await axios.post('http://localhost:8000/api/token/',
+        //         {
+        //             email: e.email,
+        //             password: e.password,
+        //         },
+        //         {
+        //             headers: {
+        //                 Authorization: 'Bearer ' + varToken
+        //             }
+        //         }
+        //     )
+        //     setAuthTokens(res.data)
+        //     setUser(jwt_decode(res.data.access))
+        //     localStorage.setItem('authTokens', JSON.stringify(res.data))
+        //     navigate('/')
+        // } catch {
+        //     alert('smt wrong')
+        // }
 
         try {
-            const res = await axios.post('http://localhost:8000/api/token/',
-                {
+
+            axios
+                .post(`http://localhost:8000/api/token/`, {
                     email: e.email,
                     password: e.password,
-                }
-            )
-            setAuthTokens(res.data)
-            setUser(jwt_decode(res.data.access))
-            localStorage.setItem('authTokens', JSON.stringify(res.data))
+                })
+                .then((res) => {
+                    setAuthTokens(res.data)
+                    setUser(jwt_decode(res.data.access))
+                    localStorage.setItem('authTokens', JSON.stringify(res.data));
+                    // localStorage.setItem('refresh_token', res.data.refresh);
+                    axios.defaults.headers['Authorization'] =
+                        'JWT ' + localStorage.getItem('authTokens');
+                    navigate('/');
 
-
-            navigate('/')
+                });
         } catch {
             alert('smt wrong')
         }
     }
+    
 
     const signOut = () => {
         try {
@@ -51,7 +81,7 @@ export const AuthProvider = ({ children }) => {
             setAuthTokens(null)
             setUser(null)
             navigate('/login')
-        } catch{
+        } catch {
             alert('Smt wrong')
         }
     }

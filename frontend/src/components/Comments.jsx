@@ -8,7 +8,6 @@ import '../style/Comments.scss'
 
 const RepComments = ({ comment_id }) => {
     const [repCmt, setRepCmt] = useState([])
-
     useEffect(() => {
         async function getData() {
             const res = await axios.get(`http://localhost:8000/api/get-rep-comments/${comment_id}`)
@@ -26,8 +25,8 @@ const RepComments = ({ comment_id }) => {
                         <span key="comment-list-reply-to-0">Reply to</span>
                     </div>
                 ]}
-                author={<h3>Han Solo</h3>}
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
+                author={<h3>{rep.user.name}</h3>}
+                avatar={<Avatar src={`http://localhost:8000${rep.user.avatar}`} alt="Han Solo" />}
                 content={
                     <p>
                         {rep.content}
@@ -78,8 +77,8 @@ const Comments = () => {
                             {/* <span onClick={() => handleClickRep(item.id)}> Show replies</span> */}
                         </div>
                     ]}
-                    author={<h3>Han Solo</h3>}
-                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
+                    author={<h3>{item.user.name}</h3>}
+                    avatar={<Avatar src={`http://localhost:8000${item.user.avatar}`} alt="Han Solo" />}
                     content={
                         <p>
                             {item.content}

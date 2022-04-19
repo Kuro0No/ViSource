@@ -3,6 +3,8 @@ from dataclasses import field
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from .models import User
+from django.contrib.auth.hashers import make_password
+
 
 class UserSerializer(ModelSerializer):
     class Meta:
@@ -27,13 +29,13 @@ class UserSerializer(ModelSerializer):
 
 
 
-class CustomUserSerializer(serializers.ModelSerializer):
+class RegisterUserSerializer(serializers.ModelSerializer):
     """
     Currently unused in preference of the below.
     """
     email = serializers.EmailField(required=True)
     name = serializers.CharField(required=True)
-    password = serializers.CharField(min_length=8, write_only=True)
+    password = serializers.CharField(min_length=8)
 
     class Meta:
         model = User

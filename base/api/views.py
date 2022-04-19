@@ -11,38 +11,7 @@ from base.models import ViSource,Comment,RepComment
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-# class TokenObtainPairSerializer(TokenObtainPairSerializer):
-#     @classmethod
-#     def get_token(cls, user):
-#         # token = super().get_token(user)
 
-#         # Add custom claims
-#         # token['name'] = user.name
-#         # token['email'] = user
-#         # print(user)
-#         # ...
-
-#         return RefreshToken.for_user(user)
-
-#     def validate(self,attrs):
-#         data=super().validate(attrs)
-#         refresh = self.get_token(self.user)
-#         data['refresh'] = str(refresh)
-#         data['access'] = str(refresh.access_token)
-
-#         return data
-
-# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-#     def validate(self, attrs):
-#         data = super().validate(attrs)
-#         refresh = self.get_token(self.user)
-#         data['refresh'] = str(refresh)
-#         data['access'] = str(refresh.access_token)
-
-#         # Add extra responses here
-#         data['name'] = self.user.name
-#         # data['avatar'] = self.user.avatar
-#         return data
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -52,6 +21,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add custom claims
         token['name'] = user.name
+        token['avatar'] = f'{user.avatar}'
         # ...
 
         return token
@@ -118,12 +88,24 @@ def getVideo(request,pk):
         return Response(serializers.data)
 
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def getComment(request,pk):
     if request.method == "GET":
         comment = Comment.objects.filter(post_id=pk)
         serializers = CommentsListSerializer(comment, many=True)
         return Response(serializers.data)
+    
+    if request.method == "POST":
+        data = request.data
+        comment = Comment.objects.create(
+            
+            content = data['content'],
+            post_id = ViSource.objects.get(uuid=data['post_id'])
+        )
+
+        serializers = CommentsListSerializer(comment, many=False)
+        return Response(serializers.data)
+
 
 
 @api_view(['GET'])
