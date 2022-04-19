@@ -59,12 +59,10 @@ class Sector(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     post_id =models.ForeignKey(ViSource, on_delete=models.CASCADE,null=True)
-    content = models.TextField(null=True, blank=True, )
+    content = models.TextField(null=True )
     image=models.ImageField(null=True,blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-
-
 
     class Meta:   
         ordering = ['-created']
@@ -77,7 +75,7 @@ class Comment(models.Model):
 
 class RepComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-    comment_id =models.ForeignKey(Comment, on_delete=models.CASCADE)
+    comment_id =models.ForeignKey(Comment, on_delete=models.CASCADE, null=True)
     content = models.TextField(null=True, blank=True)
     image=models.ImageField(null=True,blank=True)
     updated = models.DateTimeField(auto_now=True)

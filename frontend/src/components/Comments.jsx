@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Comment, Avatar } from 'antd';
+import { Comment, Avatar, Button } from 'antd';
 import moment from 'moment'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../style/Comments.scss'
+import { Input } from 'antd';
+import { useAuth } from '../hooks/useAuth';
 
+const { TextArea } = Input;
 
-const RepComments = ({ comment_id }) => {
+const RepComments = ({ comment_id, openRepCmt,setOpenRepCmt }) => {
+    const {user } = useAuth()
     const [repCmt, setRepCmt] = useState([])
+    const [repCmtContent,setRepCmtContent] = useState(null)
     useEffect(() => {
         async function getData() {
             const res = await axios.get(`http://localhost:8000/api/get-rep-comments/${comment_id}`)
@@ -15,14 +20,36 @@ const RepComments = ({ comment_id }) => {
         }
         getData()
     }, [])
+    
+
+
+
+    const handleSubmitRepCmt = async (id) => {
+        if (repCmtContent) {
+
+            const res = await axios.post(`http://localhost:8000/api/get-rep-comments/${id}`, {
+                content: repCmtContent,
+                user: {
+                    name: user.name,
+                    id: user.user_id,
+                    avatar: `/base/media/${user.avatar}`
+                },
+                comment_id: id
+
+            })
+            setRepCmt([...repCmt,res.data])
+
+        }
+    }
 
     return <>
         {repCmt.map(rep =>
             <Comment
+
                 key={rep.id}
                 actions={[
                     <div className='actions-container'>
-                        <span key="comment-list-reply-to-0">Reply to</span>
+                        <span onClick={() => setOpenRepCmt(comment_id)} key="comment-list-reply-to-0">Reply to</span>
                     </div>
                 ]}
                 author={<h3>{rep.user.name}</h3>}
@@ -39,42 +66,40 @@ const RepComments = ({ comment_id }) => {
                 }
             />
         )}
+        {openRepCmt === comment_id &&
+            <>
+                <TextArea
+                    value ={repCmtContent}
+                    onChange={(e) => setRepCmtContent(e.target.value)}
+                    placeholder="Write a reply..."
+                    autoSize={{ minRows: 2, maxRows: 5 }}
+                />
+                <Button onClick={() => handleSubmitRepCmt(comment_id)} className='my-2' shape='round' type='primary'>Send</Button>
+            </>
+        }
     </>
 }
 
 
-const Comments = () => {
+const Comments = ({ cmtList }) => {
     const { id } = useParams()
-    const [cmtList, setCmtList] = useState([])
-    const [openRep, setOpenRep] = useState(-1)
-    const [showRep, setShowRep] = useState([])
+    const { user } = useAuth()
+    const [openRepCmt, setOpenRepCmt] = useState(-1)
 
-    useEffect(() => {
-        async function getData() {
-            const res = await axios.get(`http://localhost:8000/api/get-comments/${id}`)
-            setCmtList(res.data)
-        }
-        getData()
-    }, [id])
-    // const handleClickRep = (id) => {
-    //     setOpenRep(id)
-    //     setShowRep(prev => {
-    //         return [...prev, id]
-    //     })
-    // }
-    
-    
+
+
+
     return (
         <div className='comments-container'>
-            {cmtList.map(item => {
-                
+            {cmtList.map((item, i) => {
+
 
                 return <Comment
                     key={item.id}
                     actions={[
                         <div className='actions-container'>
-                            <span key="comment-list-reply-to-0">Reply to</span>
-                            {/* <span onClick={() => handleClickRep(item.id)}> Show replies</span> */}
+                            {item.count_rep_comments > 0 && <span >{item.count_rep_comments} {item.count_rep_comments > 1 ? 'replies' : 'reply'}</span>}
+                            <span onClick={() => setOpenRepCmt(item.id)} key="comment-list-reply-to-0">Reply to</span>
                         </div>
                     ]}
                     author={<h3>{item.user.name}</h3>}
@@ -90,7 +115,8 @@ const Comments = () => {
 
                     }
                 >
-                    { <RepComments comment_id={item.id} />}
+                    {<RepComments setOpenRepCmt={setOpenRepCmt} openRepCmt={openRepCmt} comment_id={item.id} />}
+
                 </Comment>
             })
             }

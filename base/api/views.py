@@ -11,6 +11,8 @@ from base.models import ViSource,Comment,RepComment
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+from user.models import User
+
 
 
 
@@ -100,7 +102,8 @@ def getComment(request,pk):
         comment = Comment.objects.create(
             
             content = data['content'],
-            post_id = ViSource.objects.get(uuid=data['post_id'])
+            post_id = ViSource.objects.get(uuid=data['post_id']),
+            user = User.objects.get(id=int(data['user']['id']))
         )
 
         serializers = CommentsListSerializer(comment, many=False)
@@ -108,12 +111,22 @@ def getComment(request,pk):
 
 
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def getRepComment(request,pk):
     if request.method == "GET":
         comment = RepComment.objects.filter(comment_id=pk)
         serializers = RepCommentListSerializer(comment, many=True)
         return Response(serializers.data)
+    if request.method == "POST":
+        data = request.data
+        rep_comment = RepComment.objects.create(
+            
+            content = data['content'],
+            comment_id = Comment.objects.get(id=data['comment_id']),
+            user = User.objects.get(id=int(data['user']['id']))
+        )
 
+        serializers = RepCommentListSerializer(rep_comment, many=False)
+        return Response(serializers.data)
 
 

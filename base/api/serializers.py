@@ -24,11 +24,7 @@ class CommentsListSerializer(ModelSerializer):
     class Meta:
         model= Comment
         fields = '__all__'
-    
-    # def create(self,validate_data):
-    #     user = Comment.objects.create(user=validate_data['user']['id'], name=validate_data['name'])
 
-    #     return user
     
     def get_count_rep_comments(self, obj):
             count_rep_comment = RepComment.objects.filter(comment_id=obj.id)
