@@ -90,7 +90,7 @@ def getVideo(request,pk):
         return Response(serializers.data)
 
 
-@api_view(['GET','POST'])
+@api_view(['GET','POST','DELETE'])
 def getComment(request,pk):
     if request.method == "GET":
         comment = Comment.objects.filter(post_id=pk)
@@ -108,10 +108,17 @@ def getComment(request,pk):
 
         serializers = CommentsListSerializer(comment, many=False)
         return Response(serializers.data)
+    
+    if request.method == "DELETE":
+        
+        comment = Comment.objects.get(id=pk)
+        comment.delete()
+        
+        return Response('Comment was deleted')
 
 
 
-@api_view(['GET','POST'])
+@api_view(['GET','POST','DELETE'])
 def getRepComment(request,pk):
     if request.method == "GET":
         comment = RepComment.objects.filter(comment_id=pk)
@@ -128,5 +135,12 @@ def getRepComment(request,pk):
 
         serializers = RepCommentListSerializer(rep_comment, many=False)
         return Response(serializers.data)
+    
+    if request.method == "DELETE":
+        
+        rep_comment = RepComment.objects.get(id=pk)
+        rep_comment.delete()
+        
+        return Response('Rep Comment was deleted')
 
 

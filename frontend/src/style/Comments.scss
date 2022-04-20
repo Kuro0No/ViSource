@@ -3,10 +3,14 @@
     span{
         color: #000;
     }
-    h3{
+    .ant-comment-content-author{
+        position: relative;
+    }
+    strong{
         color: #000 !important;
         cursor: pointer;
-        font-size: 13px;
+        font-size: 14px;
+        margin: 0;
     }
     .actions-container {
         span {

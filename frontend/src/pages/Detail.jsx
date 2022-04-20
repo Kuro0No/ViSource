@@ -60,11 +60,13 @@ const Detail = () => {
 
             })
             setCmtList([res.data,...cmtList])
+            setCmt(null)
        
         }
 
         setLoadSendCmt(false)
     }
+
 
 
 
@@ -88,6 +90,7 @@ const Detail = () => {
                                 autoSize={{ minRows: 2, maxRows: 5 }}
                             />
                             {user && <Button loading={loadSendCmt} onClick={handleSubmitCmt} className='my-2' shape='round' type='primary'>Send</Button>}
+                           
                         </div>
                     </Col>
                     <Comments loadSendCmt={loadSendCmt} onhandleSubmitCmt={handleSubmitCmt} setCmtList={setCmtList} cmtList={cmtList} detail={detail} />

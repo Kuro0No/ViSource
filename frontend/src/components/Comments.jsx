@@ -6,13 +6,15 @@ import axios from 'axios';
 import '../style/Comments.scss'
 import { Input } from 'antd';
 import { useAuth } from '../hooks/useAuth';
+import { CloseOutlined } from '@ant-design/icons';
+
 
 const { TextArea } = Input;
 
-const RepComments = ({ comment_id, openRepCmt,setOpenRepCmt }) => {
-    const {user } = useAuth()
+const RepComments = ({ comment_id, openRepCmt, setOpenRepCmt }) => {
+    const { user } = useAuth()
     const [repCmt, setRepCmt] = useState([])
-    const [repCmtContent,setRepCmtContent] = useState(null)
+    const [repCmtContent, setRepCmtContent] = useState(null)
     useEffect(() => {
         async function getData() {
             const res = await axios.get(`http://localhost:8000/api/get-rep-comments/${comment_id}`)
@@ -20,7 +22,7 @@ const RepComments = ({ comment_id, openRepCmt,setOpenRepCmt }) => {
         }
         getData()
     }, [])
-    
+
 
 
 
@@ -37,9 +39,11 @@ const RepComments = ({ comment_id, openRepCmt,setOpenRepCmt }) => {
                 comment_id: id
 
             })
-            setRepCmt([...repCmt,res.data])
+            setRepCmt([...repCmt, res.data])
+            setRepCmtContent(null)
 
         }
+
     }
 
     return <>
@@ -49,11 +53,13 @@ const RepComments = ({ comment_id, openRepCmt,setOpenRepCmt }) => {
                 key={rep.id}
                 actions={[
                     <div className='actions-container'>
-                        <span onClick={() => setOpenRepCmt(comment_id)} key="comment-list-reply-to-0">Reply to</span>
+                        <span onClick={() => setOpenRepCmt(comment_id)} key="comment-list-reply-to-0">Reply </span>
+                        <span>{user.user_id === rep.user.id && 'Delete cmt'}</span>
+
                     </div>
                 ]}
-                author={<h3>{rep.user.name}</h3>}
-                avatar={<Avatar src={`http://localhost:8000${rep.user.avatar}`} alt="Han Solo" />}
+                author={<strong>{rep.user.name}</strong>}
+                avatar={<Avatar src={`http://localhost:8000${rep.user.avatar}`} alt={rep.user.name} />}
                 content={
                     <p>
                         {rep.content}
@@ -69,7 +75,8 @@ const RepComments = ({ comment_id, openRepCmt,setOpenRepCmt }) => {
         {openRepCmt === comment_id &&
             <>
                 <TextArea
-                    value ={repCmtContent}
+                    value={repCmtContent}
+                    onPressEnter={() => handleSubmitRepCmt(comment_id)}
                     onChange={(e) => setRepCmtContent(e.target.value)}
                     placeholder="Write a reply..."
                     autoSize={{ minRows: 2, maxRows: 5 }}
@@ -81,10 +88,21 @@ const RepComments = ({ comment_id, openRepCmt,setOpenRepCmt }) => {
 }
 
 
-const Comments = ({ cmtList }) => {
+const Comments = ({ cmtList, setCmtList }) => {
     const { id } = useParams()
     const { user } = useAuth()
     const [openRepCmt, setOpenRepCmt] = useState(-1)
+    const handleDeleteCmt = async (idCmt) => {
+
+        try {
+            const res = await axios.delete(`http://localhost:8000/api/get-comments/${idCmt}`)
+            const data = cmtList.filter(item => item.id !== idCmt)
+            setCmtList(data)
+        } catch {
+            alert('Failed to delete comment')
+        }
+    }
+
 
 
 
@@ -99,21 +117,23 @@ const Comments = ({ cmtList }) => {
                     actions={[
                         <div className='actions-container'>
                             {item.count_rep_comments > 0 && <span >{item.count_rep_comments} {item.count_rep_comments > 1 ? 'replies' : 'reply'}</span>}
-                            <span onClick={() => setOpenRepCmt(item.id)} key="comment-list-reply-to-0">Reply to</span>
+                            <span onClick={() => setOpenRepCmt(item.id)} key="comment-list-reply-to-0">Reply </span>
+                            <span onClick={() => handleDeleteCmt(item.id)}>{user.user_id === item.user.id && 'Delete cmt'}</span>
                         </div>
                     ]}
-                    author={<h3>{item.user.name}</h3>}
-                    avatar={<Avatar src={`http://localhost:8000${item.user.avatar}`} alt="Han Solo" />}
+                    author={<strong>{item.user.name}</strong>}
+                    avatar={<Avatar src={`http://localhost:8000${item.user.avatar}`} alt={item.user.name} />}
                     content={
                         <p>
                             {item.content}
                         </p>
                     }
                     datetime={
-                        <span>{moment(item?.created).fromNow()}</span>
-
-
+                        <>
+                            <span>{moment(item?.created).fromNow()}</span>
+                        </>
                     }
+
                 >
                     {<RepComments setOpenRepCmt={setOpenRepCmt} openRepCmt={openRepCmt} comment_id={item.id} />}
 
