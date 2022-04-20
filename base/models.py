@@ -40,6 +40,7 @@ class ViSource(models.Model):
        ('Music', 'Music'),
         ('Animation', 'Animation film'),
         ('Nature', 'Nature'),   
+        ('VideoGame', 'Video Game')
     ]
     category = MultiSelectField(choices=MY_CHOICES, null=True)
 
@@ -87,3 +88,4 @@ class RepComment(models.Model):
 
     def __str__(self):
         return f'Reply to: {self.comment_id}'
+

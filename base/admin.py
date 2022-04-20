@@ -36,3 +36,4 @@ class SectorAdmin(admin.ModelAdmin):
     readonly_fields = ['sector_uuid']
 
 admin.site.register(Sector,SectorAdmin)
+

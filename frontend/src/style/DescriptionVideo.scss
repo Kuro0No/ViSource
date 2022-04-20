@@ -1,12 +1,33 @@
-.description-video-container{
+.description-video-container {
     padding: 20px 0;
-    .description-detail{
-        .ant-card-body{
+
+    .description-detail {
+        .ant-card-body {
             padding: 0;
         }
+
+        h6 {
+            cursor: pointer;
+        }
+
+        .ant-card-meta {
+            padding-bottom: 20px;
+        }
+        .ant-card-meta-description {
+            white-space: pre-line;
+            color: #000;
+        }
+    
+        .ant-card-meta-detail {
+            white-space: normal;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+    
+    
+        }
     }
-    .ant-card-meta-description {
-        white-space: pre-line;
-        color: #000;
-    }
+
+    
+
 }

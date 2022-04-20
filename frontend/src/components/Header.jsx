@@ -3,11 +3,22 @@ import { Layout } from 'antd';
 import '../style/Header.scss'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-
+import { Menu, Dropdown, Space } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 
 const Header = () => {
   const { Header } = Layout;
-  const { user ,signOut} = useAuth()
+  const { user, signOut } = useAuth()
+  const menu = (
+    <Menu
+      items={[
+        {
+          label: 'Submit and continue',
+          key: '1',
+        },
+      ]}
+    />
+  );
   return (
     <Header className='header-container'>
       <ul>
@@ -20,9 +31,16 @@ const Header = () => {
         {!user && <li>
           <Link to='/login'>Login</Link>
         </li>}
-        {user && <li onClick={signOut} style={{cursor: 'pointer'}}>
+        {user && <li onClick={signOut} style={{ cursor: 'pointer' }}>
           Sign Out
         </li>}
+        <Dropdown.Button
+          icon={<DownOutlined />}
+          overlay={menu}
+          onClick={() => this.enterLoading(1)}
+        >
+          Submit
+        </Dropdown.Button>
       </ul>
     </Header>
   )

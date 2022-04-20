@@ -5,7 +5,7 @@ from base.api.serializers import CommentsListSerializer, RepCommentListSerialize
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-from base.models import ViSource,Comment,RepComment
+from base.models import  ViSource,Comment,RepComment
 
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -24,6 +24,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['name'] = user.name
         token['avatar'] = f'{user.avatar}'
+        token['subcriber'] = f'{user.subcriber}'
+
         # ...
 
         return token
@@ -42,31 +44,31 @@ def getRoutes(request):
 
     routes = [
         {
-            'Endpoint': '/video-list/',
+            'Endpoint': '/list-videos/',
             'method': 'GET',
             'body': None,
             'description': 'Returns an array of videos'
         },
         {
-            'Endpoint': '/video-list/id',
+            'Endpoint': '/list-videos/id',
             'method': 'GET',
             'body': None,
             'description': 'Returns a single videos object'
         },
         {
-            'Endpoint': '/video-list/create/',
+            'Endpoint': '/list-videos/create/',
             'method': 'POST',
             'body': {'body': ""},
             'description': 'Creates new videos with data sent in post request'
         },
         {
-            'Endpoint': '/video-list/id/update/',
+            'Endpoint': '/list-videos/id/update/',
             'method': 'PUT',
             'body': {'body': ""},
             'description': 'Creates an existing videos with data sent in post request'
         },
         {
-            'Endpoint': '/video-list/id/delete/',
+            'Endpoint': '/list-videos/id/delete/',
             'method': 'DELETE',
             'body': None,
             'description': 'Deletes and exiting videos'
@@ -82,12 +84,17 @@ def getVideos(request):
         serializers = VideosListSerializer(videosList, many=True)
         return Response(serializers.data)
 
-@api_view(['GET'])
+@api_view(['GET', 'DELETE'])
 def getVideo(request,pk):
     if request.method == "GET":
         videos = ViSource.objects.get(uuid=pk)
         serializers = VideosListSerializer(videos, many=False)
         return Response(serializers.data)
+    
+    if request.method == "DELETE":
+        video = ViSource.objects.get(uuid=pk)
+        video.delete()
+        return Response('This video was deleted')
 
 
 @api_view(['GET','POST','DELETE'])
@@ -144,3 +151,16 @@ def getRepComment(request,pk):
         return Response('Rep Comment was deleted')
 
 
+@api_view(['GET', 'POST'])
+def getSubcriber(request,pk):
+    if request.method =='GET':
+        # subcriber = Subcribers.objects.get(id=pk)
+        # serializers = SubcriberListSerializer(subcriber, many=True)
+        # return Response(serializers.data)
+        pass
+
+    if request.method =='POST':
+        data = request.data
+        user = User.objects.get(id=pk)
+        print(data)
+        return Response(True)

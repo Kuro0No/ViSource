@@ -12,7 +12,8 @@ class UserSerializer(ModelSerializer):
         fields=[
             "name",
             "avatar",
-            'id'
+            'id',
+            'subcriber'
         ]
 
 

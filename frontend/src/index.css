@@ -21,3 +21,6 @@ code {
 li{
   list-style: none;
 }
+* {
+  scroll-behavior: smooth;
+}

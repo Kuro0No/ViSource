@@ -53,7 +53,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser,PermissionsMixin):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # user_id= models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True)
-    name=models.CharField(max_length=225)   
+    name=models.CharField(max_length=225)
+    subcriber = models.IntegerField(default=0)
     email=models.EmailField(max_length=225,unique=True)
     created=models.DateTimeField(auto_now_add=True)
     avatar = models.ImageField(upload_to='avatar/' ,default='avatar/defaultAvatar.jpg', blank=True)
