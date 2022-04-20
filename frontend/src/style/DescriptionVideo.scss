@@ -1,0 +1,12 @@
+.description-video-container{
+    padding: 20px 0;
+    .description-detail{
+        .ant-card-body{
+            padding: 0;
+        }
+    }
+    .ant-card-meta-description {
+        white-space: pre-line;
+        color: #000;
+    }
+}

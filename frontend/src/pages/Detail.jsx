@@ -7,12 +7,13 @@ import Comments from '../components/Comments';
 import { Input } from 'antd';
 import { Avatar } from 'antd';
 import { useAuth } from '../hooks/useAuth';
+import DescriptionVideo from '../components/DescriptionVideo';
 
 
 const { TextArea } = Input;
 const Detail = () => {
     const { id } = useParams()
-    const [detail, setDetail] = useState(null)
+    const [detail, setDetail] = useState({})
     const navigate = useNavigate()
     const [cmt, setCmt] = useState(null)
     const [loadSendCmt, setLoadSendCmt] = useState(false)
@@ -75,7 +76,7 @@ const Detail = () => {
             <Row>
                 <Col span={18}>
                     <ReactPlayer height={'550px'} controls width={'100%'} url={`http://localhost:8000${detail?.video}`} />
-                    <div style={{ padding: '100px' }}></div>
+                    <DescriptionVideo detail={detail} />
                     <Col className='d-flex'>
 
                         <Avatar className='me-3' src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwbGozsS9QP10p16rZiCrQD0koXVkI4c7LwUHab9dkmFRcN0VqCkB37f2y0EnySItwykg&usqp=CAU`} />

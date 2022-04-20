@@ -140,7 +140,7 @@ def getRepComment(request,pk):
         
         rep_comment = RepComment.objects.get(id=pk)
         rep_comment.delete()
-        
+
         return Response('Rep Comment was deleted')
 
 

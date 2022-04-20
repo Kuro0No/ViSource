@@ -25,7 +25,7 @@ admin.site.register(Comment,CommentAdmin)
 
 
 class RepCommentAdmin(admin.ModelAdmin):
-    list_display = ('user','content','comment_id')
+    list_display = ('user','content','comment_id', 'id')
     readonly_fields = ['id']
 
 

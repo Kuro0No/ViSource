@@ -45,6 +45,16 @@ const RepComments = ({ comment_id, openRepCmt, setOpenRepCmt }) => {
         }
 
     }
+    const handleDeleteRepCmt = async (id) => {
+
+        try {
+            const res = await axios.delete(`http://127.0.0.1:8000/api/get-rep-comments/${id}`)
+            const data = repCmt.filter(item => item.id !== id)
+            setRepCmt(data)
+        } catch {
+            alert('Failed to delete rep comment')
+        }
+    }
 
     return <>
         {repCmt.map(rep =>
@@ -54,7 +64,7 @@ const RepComments = ({ comment_id, openRepCmt, setOpenRepCmt }) => {
                 actions={[
                     <div className='actions-container'>
                         <span onClick={() => setOpenRepCmt(comment_id)} key="comment-list-reply-to-0">Reply </span>
-                        <span>{user.user_id === rep.user.id && 'Delete cmt'}</span>
+                        {user && <span onClick={() => handleDeleteRepCmt(rep.id)}>{user.user_id === rep.user.id && 'Delete cmt'}</span>}
 
                     </div>
                 ]}
@@ -118,7 +128,7 @@ const Comments = ({ cmtList, setCmtList }) => {
                         <div className='actions-container'>
                             {item.count_rep_comments > 0 && <span >{item.count_rep_comments} {item.count_rep_comments > 1 ? 'replies' : 'reply'}</span>}
                             <span onClick={() => setOpenRepCmt(item.id)} key="comment-list-reply-to-0">Reply </span>
-                            <span onClick={() => handleDeleteCmt(item.id)}>{user.user_id === item.user.id && 'Delete cmt'}</span>
+                            {user && <span onClick={() => handleDeleteCmt(item.id)}>{user.user_id === item.user.id && 'Delete cmt'}</span>}
                         </div>
                     ]}
                     author={<strong>{item.user.name}</strong>}
