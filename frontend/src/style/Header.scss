@@ -4,10 +4,16 @@
     ul{
         margin: 0;
         display: flex;
+        justify-content: flex-end;
+        position: relative;
         li{
             padding: 0 10px;
-           
+            
         }
+    }
+    .user-header{
+        cursor: pointer;
+        
     }
 }
 

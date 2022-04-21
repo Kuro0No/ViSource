@@ -8,6 +8,7 @@ import HomePage from './pages/Homepage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Save from './pages/Save';
+import Setting from './pages/Setting';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/history' element={<History />} />
           <Route path='/saved' element={<Save />} />
+          <Route path='/setting' element={<Setting />} />
         </Routes>
       </Layout>
     </div>
