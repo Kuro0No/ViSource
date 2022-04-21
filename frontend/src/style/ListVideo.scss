@@ -4,17 +4,20 @@
         height: 110px;
     }
 
-    img {
-        height: 100%;
-        
-        object-fit: cover;
-    }
+
 
     .ant-card-meta-title {
-        white-space:normal;
+        white-space: normal;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         display: -webkit-box;
-        margin: 0!important;
+        margin: 0 !important;
+    }
+
+    .ant-card-cover {
+        img {
+            height: 250px;
+            object-fit: fill;
+        }
     }
 }

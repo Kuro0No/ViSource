@@ -24,7 +24,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['name'] = user.name
         token['avatar'] = f'{user.avatar}'
-        token['subcriber'] = f'{user.subcriber}'
+        # token['subcriber'] = f'{user.subcriber}'
 
         # ...
 
@@ -164,3 +164,14 @@ def getSubcriber(request,pk):
         user = User.objects.get(id=pk)
         print(data)
         return Response(True)
+
+
+@api_view(['GET'])
+def getWatchedVideo(request,pk):
+    if request.method =='GET':
+        # subcriber = Subcribers.objects.get(id=pk)
+        # serializers = SubcriberListSerializer(subcriber, many=True)
+        # return Response(serializers.data)
+        pass
+
+    

@@ -1,22 +1,27 @@
 import React from 'react'
 import { Layout } from 'antd';
 import ContentHome from '../components/ContentHome';
+// import LeftSide from '../components/LeftSide';
 
 
 
 
 const HomePage = () => {
-    const { Header, Footer, Sider } = Layout;
+    const { Sider } = Layout;
+
+
+
 
     return (
-        <div>
-            <Layout>
-                <Layout>
-                    <Sider>Sider</Sider>
-                    <ContentHome/>
-                </Layout>
-            </Layout>
-        </div>
+
+        <Layout>
+            {/* <Sider theme='light'>
+                <LeftSide />
+            </Sider> */}
+            <ContentHome />
+
+        </Layout>
+
     )
 }
 

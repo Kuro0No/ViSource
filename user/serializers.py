@@ -13,7 +13,7 @@ class UserSerializer(ModelSerializer):
             "name",
             "avatar",
             'id',
-            'subcriber'
+            # 'subcriber'
         ]
 
 

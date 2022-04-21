@@ -1,0 +1,22 @@
+.history-bef-loggin {
+    margin: auto;
+    position: absolute;
+    left: 30%;
+    top: 20%;
+
+    .anticon-history {
+        display: flex;
+        justify-content: center;
+    }
+    a{
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.history-container {
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    position: relative;
+
+}

@@ -3,6 +3,6 @@ from .models import User
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('email','id','name','is_active', 'is_staff', 'is_superuser')
-    readonly_fields = ['last_login', 'id','subcriber' ]
+    readonly_fields = ['last_login', 'id', ]
 
 admin.site.register(User,UserAdmin)

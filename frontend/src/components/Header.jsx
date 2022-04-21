@@ -34,13 +34,7 @@ const Header = () => {
         {user && <li onClick={signOut} style={{ cursor: 'pointer' }}>
           Sign Out
         </li>}
-        <Dropdown.Button
-          icon={<DownOutlined />}
-          overlay={menu}
-          onClick={() => this.enterLoading(1)}
-        >
-          Submit
-        </Dropdown.Button>
+        
       </ul>
     </Header>
   )
