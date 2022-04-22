@@ -79,7 +79,7 @@ const Setting = () => {
             }
         } catch {
             alert('Smt wrong')
-            5
+            
         }
         setLoading(false)
     }

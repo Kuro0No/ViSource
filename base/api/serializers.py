@@ -6,11 +6,6 @@ from base.models import RepComment, ViSource, Comment
 from user.serializers import UserSerializer
 
 
-
-
-
-
-
 class VideosListSerializer(ModelSerializer):
     author =  UserSerializer(read_only=False)
     class Meta:

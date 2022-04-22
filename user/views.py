@@ -1,4 +1,6 @@
+import jwt
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -25,7 +27,7 @@ class CustomUserCreate(APIView):
 
 class BlacklistTokenUpdateView(APIView):
     permission_classes = [AllowAny]
-    authentication_classes = ()
+    authentication_classes = [JWTAuthentication]
 
     def post(self, request):
         try:
@@ -40,7 +42,9 @@ class BlacklistTokenUpdateView(APIView):
 
 
 class ChangePasswordView(generics.UpdateAPIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
     queryset = User.objects.all()
     serializer_class = ChangePasswordSerializer
@@ -48,7 +52,8 @@ class ChangePasswordView(generics.UpdateAPIView):
 
 
 class UpdateProfileView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated,]
+    authentication_classes = [JWTAuthentication]
 
     queryset = User.objects.all()
-    permission_classes = (IsAuthenticated,)
     serializer_class = UpdateUserSerializer

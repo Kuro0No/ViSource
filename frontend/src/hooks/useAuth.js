@@ -63,9 +63,9 @@ export const AuthProvider = ({ children }) => {
                     setAuthTokens(res.data)
                     setUser(jwt_decode(res.data.access))
                     localStorage.setItem('authTokens', JSON.stringify(res.data));
-                    // localStorage.setItem('refresh_token', res.data.refresh);
+                    localStorage.setItem('refresh_token', res.data.refresh);
                     axios.defaults.headers['Authorization'] =
-                        'JWT ' + localStorage.getItem('authTokens');
+                        'Bearer ' + localStorage.getItem('authTokens');
                     navigate('/');
 
                 });

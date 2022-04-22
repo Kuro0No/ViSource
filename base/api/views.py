@@ -78,6 +78,7 @@ def getRoutes(request):
 
 
 @api_view(['GET'])
+
 def getVideos(request):
     if request.method == "GET":
         videosList = ViSource.objects.all()
