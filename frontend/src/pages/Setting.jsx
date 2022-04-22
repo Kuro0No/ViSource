@@ -3,15 +3,17 @@ import '../style/Setting.scss'
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
 import { useAuth } from '../hooks/useAuth';
+import axios from 'axios';
 
 
 
 
 const Setting = () => {
-    const { user } = useAuth()
+    const { user, authTokens } = useAuth()
     const [username, setUsername] = useState(user.name)
     const [active, setActive] = useState(-1)
-    const [userAvatar,setUserAvatar] = useState(user.avatar)
+    const [userAvatar, setUserAvatar] = useState(user.avatar)
+
 
 
     // Display Name
@@ -39,7 +41,6 @@ const Setting = () => {
 
     }
 
-
     const handleClick = (id) => {
         setActive(id)
 
@@ -58,7 +59,28 @@ const Setting = () => {
     }
     const onFinishNewPass = async () => {
         setLoading(true)
+        try {
+            if (newPassword !== confirmNewPassword) {
+                alert(`Current and Confirm password doesn't match `)
+            } else {
+                await axios.put(`http://localhost:8000/api/user/change_password/${user.user_id}/`, {
+                    old_password: currentPassword,
+                    password: newPassword,
+                    password2: confirmNewPassword
+                },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${String(authTokens.access)}`,
 
+                        }
+                    }
+                )
+                alert('Success')
+            }
+        } catch {
+            alert('Smt wrong')
+            5
+        }
         setLoading(false)
     }
 
@@ -221,7 +243,7 @@ const Setting = () => {
                                         placeholder="Current password"
                                         value={currentPassword}
                                         onChange={e => setCurrentPassword(e.target.value)}
-                                        allowClear
+
 
                                     />
                                 </Form.Item>
@@ -236,7 +258,7 @@ const Setting = () => {
                                         placeholder="Confirm password"
                                         value={newPassword}
                                         onChange={e => setNewPassword(e.target.value)}
-                                        allowClear
+
                                     />
                                 </Form.Item>
                                 <Form.Item
@@ -250,7 +272,7 @@ const Setting = () => {
                                         placeholder="Confirm New Password"
                                         value={confirmNewPassword}
                                         onChange={e => setConfirmNewPassword(e.target.value)}
-                                        allowClear
+
 
                                     />
                                 </Form.Item>

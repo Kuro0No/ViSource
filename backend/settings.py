@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'base.apps.BaseConfig',
     'rest_framework_simplejwt.token_blacklist',
+    'rest_framework.authtoken',
     'rest_framework',
     'rest_framework_simplejwt',
     'multiselectfield',
@@ -61,13 +62,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 REST_FRAMEWORK = {
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ),
-    
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication', 
+
     )
     
 }
@@ -87,7 +90,7 @@ SIMPLE_JWT = {
     'JWK_URL': None,
     'LEEWAY': 0,
 
-    'AUTH_HEADER_TYPES': ( 'Bearer','JWT'), 
+    'AUTH_HEADER_TYPES': ('Bearer',), #'JWT'
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
@@ -107,9 +110,10 @@ SIMPLE_JWT = {
 ROOT_URLCONF = 'backend.urls'
 
 JWT_AUTH = {
-    # Authorization:Token xxx
+    # Authorization:Token xxx   
     'JWT_AUTH_HEADER_PREFIX': 'Token',
 }
+
 
 TEMPLATES = [
     {
