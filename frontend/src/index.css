@@ -24,3 +24,6 @@ li{
 * {
   scroll-behavior: smooth;
 }
+.ant-layout{
+  background: #fff!important;
+}

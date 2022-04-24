@@ -29,7 +29,7 @@ class RepCommentAdmin(admin.ModelAdmin):
     readonly_fields = ['id']
 
 
-admin.site.register(RepComment,RepCommentAdmin)
+admin.site.register(RepComment,RepCommentAdmin) 
 
 class SectorAdmin(admin.ModelAdmin):
     list_display = ['name']

@@ -1,17 +1,16 @@
 from os import access
+from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from base.api.serializers import CommentsListSerializer, RepCommentListSerializer, VideosListSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-
-
+from rest_framework import viewsets
 from base.models import  ViSource,Comment,RepComment
-
-
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-
 from user.models import User
+import django_filters
+
 
 
 
@@ -78,11 +77,12 @@ def getRoutes(request):
 
 
 @api_view(['GET'])
-
 def getVideos(request):
     if request.method == "GET":
         videosList = ViSource.objects.all()
         serializers = VideosListSerializer(videosList, many=True)
+        videosq = ViSource.objects.filter(title__contains='MEET')
+        print(videosq)
         return Response(serializers.data)
 
 @api_view(['GET', 'DELETE'])
@@ -175,4 +175,24 @@ def getWatchedVideo(request,pk):
         # return Response(serializers.data)
         pass
 
+
+
+
+# @api_view(['GET'])
+# def getSearchVideos(request):
+#     if request.method == "GET":
+#         videosq = ViSource.objects.filter(title__contains='MEET').order_by('-created')
+#         filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
+#         search_fields = ('title', )
+#         serializers = VideosListSerializer(videosq, many=True)
+#         return Response(serializers.data)
+
+class getSearchVideos(viewsets.ModelViewSet):
+    queryset = ViSource.objects.all()
+    serializer_class = VideosListSerializer
+    # filter_fields = ('title',)
+    filter_backends = [filters.SearchFilter,filters.OrderingFilter,] #filters.BaseFilterBackend, filters.OrderingFilter,
+    ordering = ('-created',)
+    search_fields = ('title',)
     
+        

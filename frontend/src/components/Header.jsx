@@ -1,21 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Layout } from 'antd';
 import '../style/Header.scss'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { Menu, Dropdown, Space } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
-import { Avatar } from 'antd';
-import { List, Typography, Divider } from 'antd';
 import DropdownAvatar from './DropdownAvatar';
+import { Input,  } from 'antd';
 
+const { Search } = Input;
 
 const Header = () => {
   const { Header } = Layout;
   const { user, signOut } = useAuth()
- 
+  const navi = useNavigate()
+  const [search,setSearch] = useState(null)
+  
+  const onSearch=() => {
+    navi(`/search?search_query=${search}`)
+  }
   return (
     <Header className='header-container'>
+
+      <Search placeholder="input search text" value={search} onChange={(e) => setSearch(e.target.value)} onSearch={onSearch} enterButton />
       <ul>
         <li>
           <Link to='/'>Header</Link>
@@ -26,12 +31,12 @@ const Header = () => {
         {!user && <li>
           <Link to='/login'>Login</Link>
         </li>}
-        
+
         {user &&
           <li className='user-header'>
             <DropdownAvatar />
           </li>}
-        
+
       </ul>
     </Header>
   )

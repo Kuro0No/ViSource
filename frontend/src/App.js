@@ -8,6 +8,7 @@ import HomePage from './pages/Homepage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Save from './pages/Save';
+import Search from './pages/Search';
 import Setting from './pages/Setting';
 
 
@@ -44,6 +45,7 @@ function App() {
           <Route path='/history' element={<History />} />
           <Route path='/saved' element={<Save />} />
           <Route path='/setting' element={<Setting />} />
+          <Route path='/search' element={<Search />} />
         </Routes>
       </Layout>
     </div>
