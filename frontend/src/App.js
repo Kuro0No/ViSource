@@ -1,5 +1,6 @@
 import { Layout } from 'antd';
-import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
+import { useCallback, useState } from 'react';
+import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import LeftSide from './components/LeftSide';
 import { useAuth } from './hooks/useAuth';
@@ -17,11 +18,18 @@ function App() {
   const { Sider } = Layout
   const location = useLocation()
   const { id } = useParams()
-  const {user} = useAuth()
+  const { user } = useAuth()
+  const [SearchList, setSearchList] = useState([])
+  const navi = useNavigate()
+  
+
+  const onSearchHandle = useCallback((data) => {
+    setSearchList(data)
+  }, [])
 
   return (
     <div className="App">
-      <Header />
+      <Header onSearchHandle={onSearchHandle} />
       <Layout>
         {location.pathname == '/' &&
           <Sider theme='light'>
@@ -47,7 +55,7 @@ function App() {
           <Route path='/history' element={<History />} />
           <Route path='/saved' element={<Save />} />
           <Route path='/setting' element={user ? <Setting /> : <Navigate to='/login' />} />
-          <Route path='/search' element={<Search />} />
+          <Route path='/search' element={<Search SearchList={SearchList} onSearchHandle={onSearchHandle} />} />
         </Routes>
       </Layout>
     </div>

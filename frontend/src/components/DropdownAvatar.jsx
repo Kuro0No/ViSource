@@ -19,14 +19,20 @@ const DropdownAvatar = () => {
                 overlay={
                     <>
                         <Menu>
-                            <Link to='/profile'>
 
-                                <Menu.Item key={1} icon={<ProfileOutlined style={{ fontSize: 17 }} />}>Profile</Menu.Item>
-                            </Link>
-                            <Link to='/setting'>
-                                <Menu.Item icon={<SettingOutlined />}>Setting</Menu.Item>
-                            </Link>
-                            <Menu.Item key={2} icon={<LogoutOutlined style={{ fontSize: 17 }} />} onClick={signOut}>Sign out</Menu.Item>
+                            <Menu.Item eventKey='1' key={1} icon={<ProfileOutlined style={{ fontSize: 17 }} />}>
+                                <Link to='/profile'>
+                                    Profile
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item eventKey='2' icon={<SettingOutlined />}>
+                                <Link to='/setting'>
+                                    Setting
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item eventKey='3' key={2} icon={<LogoutOutlined style={{ fontSize: 17 }} />} onClick={signOut}>
+                                Sign out
+                            </Menu.Item>
 
                         </Menu>
 

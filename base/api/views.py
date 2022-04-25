@@ -9,9 +9,7 @@ from base.models import  ViSource,Comment,RepComment
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from user.models import User
-import django_filters
-
-
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
@@ -81,8 +79,7 @@ def getVideos(request):
     if request.method == "GET":
         videosList = ViSource.objects.all()
         serializers = VideosListSerializer(videosList, many=True)
-        videosq = ViSource.objects.filter(title__contains='MEET')
-        print(videosq)
+     
         return Response(serializers.data)
 
 @api_view(['GET', 'DELETE'])
@@ -163,7 +160,6 @@ def getSubcriber(request,pk):
     if request.method =='POST':
         data = request.data
         user = User.objects.get(id=pk)
-        print(data)
         return Response(True)
 
 
@@ -190,9 +186,9 @@ def getWatchedVideo(request,pk):
 class getSearchVideos(viewsets.ModelViewSet):
     queryset = ViSource.objects.all()
     serializer_class = VideosListSerializer
-    # filter_fields = ('title',)
-    filter_backends = [filters.SearchFilter,filters.OrderingFilter,] #filters.BaseFilterBackend, filters.OrderingFilter,
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter,] #filters.BaseFilterBackend, filters.OrderingFilter,
     ordering = ('-created',)
+    # filter_fields = ('title',)
     search_fields = ('title',)
     
         

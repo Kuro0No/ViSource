@@ -1,22 +1,28 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Layout } from 'antd';
 import '../style/Header.scss'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import DropdownAvatar from './DropdownAvatar';
-import { Input,  } from 'antd';
+import { Input, } from 'antd';
+import axios from 'axios';
 
 const { Search } = Input;
 
-const Header = () => {
+const Header = ({ onSearchHandle }) => {
   const { Header } = Layout;
   const { user, signOut } = useAuth()
   const navi = useNavigate()
-  const [search,setSearch] = useState(null)
-  
-  const onSearch=() => {
-    navi(`/search?search_query=${search}`)
+  const [search, setSearch] = useState(null)
+
+  const onSearch =async () => {
+    const res = await axios.get(`http://localhost:8000/api/search-video/?search=${search}`)
+    onSearchHandle(res.data)
+    navi(`search/?search=${search}`)
   }
+
+  
+
   return (
     <Header className='header-container'>
 

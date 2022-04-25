@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'multiselectfield',
     "corsheaders",
-    'user',
     'django_filters',
+    'user',
 
 ]
 
