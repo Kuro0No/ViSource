@@ -1,7 +1,8 @@
 import { Layout } from 'antd';
-import { Route, Routes, useLocation, useParams } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import LeftSide from './components/LeftSide';
+import { useAuth } from './hooks/useAuth';
 import Detail from './pages/Detail';
 import History from './pages/History';
 import HomePage from './pages/Homepage';
@@ -16,6 +17,7 @@ function App() {
   const { Sider } = Layout
   const location = useLocation()
   const { id } = useParams()
+  const {user} = useAuth()
 
   return (
     <div className="App">
@@ -44,7 +46,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/history' element={<History />} />
           <Route path='/saved' element={<Save />} />
-          <Route path='/setting' element={<Setting />} />
+          <Route path='/setting' element={user ? <Setting /> : <Navigate to='/login' />} />
           <Route path='/search' element={<Search />} />
         </Routes>
       </Layout>

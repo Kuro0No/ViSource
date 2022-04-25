@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from user.models import User
-from .serializers import ChangePasswordSerializer, RegisterUserSerializer, UpdateUserSerializer
+from .serializers import ChangePasswordSerializer, RegisterUserSerializer, UpdateNameUserSerializer,UpdateAvatarUserSerializer  
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
@@ -51,9 +51,17 @@ class ChangePasswordView(generics.UpdateAPIView):
 
 
 
-class UpdateProfileView(generics.UpdateAPIView):
+class UpdateNameProfileView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [JWTAuthentication]
 
     queryset = User.objects.all()
-    serializer_class = UpdateUserSerializer
+    serializer_class = UpdateNameUserSerializer
+
+
+class UpdateAvatarProfileView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated,]
+    authentication_classes = [JWTAuthentication]
+
+    queryset = User.objects.all()
+    serializer_class = UpdateAvatarUserSerializer

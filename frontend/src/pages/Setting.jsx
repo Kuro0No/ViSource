@@ -14,10 +14,6 @@ const Setting = () => {
     const [active, setActive] = useState(-1)
     const [userAvatar, setUserAvatar] = useState(user.avatar)
 
-
-
-    // Display Name
-    const [displayNameValue, setdisplayNameValue] = useState()
     const [passwordValue, setpasswordValue] = useState()
     const [confirmPasswordValue, setconfirmPasswordValue] = useState()
 
@@ -32,20 +28,16 @@ const Setting = () => {
     // photoUrl
     const [photo, setPhoto] = useState(null)
     const handleChangeAva = (e) => {
-
         // const file = e.target.files[0]
         // file.preview = URL.createObjectURL(file)
         // setUserAvatar(file)
         console.log(e.target.files[0])
 
-
     }
 
     const handleClick = (id) => {
         setActive(id)
-
     }
-
 
     useEffect(() => {
         return () => {
@@ -54,7 +46,21 @@ const Setting = () => {
     }, [userAvatar])
 
     const onFinish = async () => {
-        setLoading(true)
+        try {
+            setLoading(true)
+            axios.put(`http://localhost:8000/api/user/update_name/${user.user_id}/`, {
+                name: username,
+                password: passwordValue
+            }, {
+                headers: {
+                    Authorization: `Bearer ${String(authTokens.access)}`
+                }
+            })
+            setLoading(false)
+            alert('success')
+        } catch (error) {
+            alert(error)
+        }
 
     }
     const onFinishNewPass = async () => {
@@ -79,7 +85,7 @@ const Setting = () => {
             }
         } catch {
             alert('Smt wrong')
-            
+
         }
         setLoading(false)
     }
@@ -112,7 +118,7 @@ const Setting = () => {
                                     valuePropName
 
                                 >
-                                    <Input onChange={(e) => setUsername(e.target.value)} value={username} prefix={<UserOutlined className="site-form-item-icon" />} />
+                                    <Input onChange={(e) => setUsername(e.target.value)} defaultValue={username} value={username} prefix={<UserOutlined className="site-form-item-icon" />} />
                                 </Form.Item>
                             </div>
                             <Form.Item

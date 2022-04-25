@@ -28,7 +28,6 @@ class UserSerializer(ModelSerializer):
 #         ]
 
 
-
 class RegisterUserSerializer(serializers.ModelSerializer):
     """
     Currently unused in preference of the below.
@@ -83,34 +82,43 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
         return instance
 
-class UpdateUserSerializer(serializers.ModelSerializer):
+class UpdateNameUserSerializer(serializers.ModelSerializer):
     # email = serializers.EmailField(required=True)
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+
 
     class Meta:
         model = User
-        fields = ('name', 'email','avatar')
+        fields = ('name','password')
+        extra_kwargs = {'password': {'required': True}}
         
-
-    def validate_email(self, value):
-        user = self.context['request'].user
-        if User.objects.exclude(pk=user.pk).filter(email=value).exists():
-            raise serializers.ValidationError({"email": "This email is already in use."})
-        return value
-
-    def validate_name(self, value):
-        user = self.context['request'].user
-        if User.objects.exclude(pk=user.pk).filter(name=value).exists():
-            raise serializers.ValidationError({"name": "This name is already in use."})
-        return value
+   
 
     def update(self, instance, validated_data):
         user = self.context['request'].user
-
         if user.id != instance.pk:
             raise serializers.ValidationError({"authorize": "You dont have permission for this user."})
-        instance.email = validated_data['email']
+       
+        # instance.password = validated_data['password']
         instance.name = validated_data['name']  
+        if instance.check_password(validated_data['password']):
+            instance.save()
+        else:
+            raise serializers.ValidationError({"authorize": "password is not correct"})
+        return instance
 
-        instance.save()
 
+
+class UpdateAvatarUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['avatar']
+
+    def update(self, instance, validated_data):
+        user = self.context['request'].user
+        if user.id != instance.pk:
+            raise serializers.ValidationError({"authorize": "You dont have permission for this user."})
+        instance.avatar = validated_data['avatar']  
+        if validated_data:
+            instance.save()    
         return instance
