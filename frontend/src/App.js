@@ -26,25 +26,16 @@ function App() {
   const onSearchHandle = useCallback((data) => {
     setSearchList(data)
   }, [])
-
   return (
     <div className="App">
       <Header onSearchHandle={onSearchHandle} />
       <Layout>
-        {location.pathname == '/' &&
-          <Sider theme='light'>
+       
+          <Sider breakpoint={['xs']} theme='light'>
             <LeftSide />
-          </Sider>}
+          </Sider>
 
-        {location.pathname == '/saved' &&
-          <Sider theme='light'>
-            <LeftSide />
-          </Sider>}
-
-        {location.pathname == '/history' &&
-          <Sider theme='light'>
-            <LeftSide />
-          </Sider>}
+       
 
 
         <Routes>

@@ -1,76 +1,76 @@
 .search-container {
-    .ant-card-body {
-        padding: 0 !important;
-    }
+    .search-item-group {
 
-    .ant-card-bordered {
-        border: none;
-    }
-    .ant-col{
-        width: 100%;
-        height: 100%;
-    }
-    .ant-card-meta-avatar {
-    
+        .ant-card-body {
+            padding: 0 !important;
+        }
 
-        .ant-image {
-            width: 100%;
-            height: 100%;
-           
 
-            img {
+        .ant-card-meta-avatar {
+            .ant-image {
                 width: 100%;
                 height: 100%;
-                object-fit: fill;
+
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: fill;
+                }
             }
         }
-    }
 
-    .description {
-        white-space: normal;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        display: -webkit-box;
+        .description {
+            white-space: normal;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+        }
     }
 
 
 }
 
 @media screen and (min-width:845px) {
-    .ant-card-meta-avatar {
-        width: 360px;
-        height: 250px;
-        
+    .search-container {
+        .ant-card-meta-avatar {
+            width: 360px;
+            height: 250px;
+        }
     }
 }
 
 
 @media screen and (max-width:845px) {
-    .ant-card-meta-avatar {
-        width: 200px;
-        height: 220px;
-        
+    .search-container {
+        .ant-card-meta-avatar {
+            width: 200px;
+            height: 220px;
+        }
     }
 }
 
 
 @media screen and (max-width:576px) {
-    .ant-card-meta-avatar {
-        width: 150px;
-        height: 150px;
-        
+    .search-container {
+        .ant-card-meta-avatar {
+            width: 150px;
+            height: 150px;
+        }
     }
 }
+
 @media screen and (max-width:430px) {
-    .ant-card-meta-avatar {
-        width: 125px;
-        height: 125px;
-        
-    }
-    .ant-card-meta-title{
-        font-size: 12px;
-    }
-    .ant-card-meta-description{
-        font-size: 11px;
+    .search-container {
+        .ant-card-meta-avatar {
+            width: 125px;
+            height: 125px;
+        }
+        .ant-card-meta-title {
+            font-size: 12px;
+        }
+        .ant-card-meta-description {
+            font-size: 11px;
+        }
     }
 }

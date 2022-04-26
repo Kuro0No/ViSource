@@ -1,9 +1,10 @@
-from curses.ascii import US
-from dataclasses import field
 from rest_framework.serializers import ModelSerializer
-from rest_framework import serializers
-from .models import User
+from rest_framework import serializers as serializersCore
+from base.api import serializers as serializersBase
+from base.models import ViSource
+from .models import  SavedVideoModel, User
 from django.contrib.auth.password_validation import validate_password
+
 
 class UserSerializer(ModelSerializer):
     class Meta:
@@ -14,27 +15,20 @@ class UserSerializer(ModelSerializer):
             'id',
             # 'subcriber'
         ]
+class VideosSavedSerializer(ModelSerializer):
+    author =  UserSerializer(read_only=False)
+    class Meta:
+        model= ViSource
+        fields = ['title','video','image','description','created','author',]
 
 
-# class UserAuthSerializer(ModelSerializer):
-#     courses=serializers.ListField(source='get_all_courses')
-#     class Meta:
-#         model=User
-#         fields=[
-#             'name',
-#             'id',
-#             'email',
-            
-#         ]
-
-
-class RegisterUserSerializer(serializers.ModelSerializer):
+class RegisterUserSerializer(serializersCore.ModelSerializer):
     """
     Currently unused in preference of the below.
     """
-    email = serializers.EmailField(required=True)
-    name = serializers.CharField(required=True)
-    password = serializers.CharField(min_length=8)
+    email = serializersCore.EmailField(required=True)
+    name = serializersCore.CharField(required=True)
+    password = serializersCore.CharField(min_length=8)
 
     class Meta:
         model = User
@@ -50,10 +44,10 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class ChangePasswordSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
-    old_password = serializers.CharField(write_only=True, required=True)
+class ChangePasswordSerializer(serializersCore.ModelSerializer):
+    password = serializersCore.CharField(write_only=True, required=True, validators=[validate_password])
+    password2 = serializersCore.CharField(write_only=True, required=True)
+    old_password = serializersCore.CharField(write_only=True, required=True)
 
     class Meta:
         model = User
@@ -61,7 +55,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
+            raise serializersCore.ValidationError({"password": "Password fields didn't match."})
 
         return attrs
 
@@ -69,22 +63,22 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
         user = self.context['request'].user
         if not user.check_password(value):
-            raise serializers.ValidationError({"old_password": "Old password is not correct"})
+            raise serializersCore.ValidationError({"old_password": "Old password is not correct"})
         return value
 
     def update(self, instance, validated_data):
         user = self.context['request'].user
     
         if user.id != instance.pk:
-            raise serializers.ValidationError({"authorize": "You dont have permission for this user."})
+            raise serializersCore.ValidationError({"authorize": "You dont have permission for this user."})
         instance.set_password(validated_data['password'])
         instance.save()
 
         return instance
 
-class UpdateNameUserSerializer(serializers.ModelSerializer):
-    # email = serializers.EmailField(required=True)
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+class UpdateNameUserSerializer(serializersCore.ModelSerializer):
+    # email = serializersCore.EmailField(required=True)
+    password = serializersCore.CharField(write_only=True, required=True, validators=[validate_password])
 
 
     class Meta:
@@ -97,19 +91,19 @@ class UpdateNameUserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         user = self.context['request'].user
         if user.id != instance.pk:
-            raise serializers.ValidationError({"authorize": "You dont have permission for this user."})
+            raise serializersCore.ValidationError({"authorize": "You dont have permission for this user."})
        
         # instance.password = validated_data['password']
         instance.name = validated_data['name']  
         if instance.check_password(validated_data['password']):
             instance.save()
         else:
-            raise serializers.ValidationError({"authorize": "password is not correct"})
+            raise serializersCore.ValidationError({"authorize": "password is not correct"})
         return instance
 
 
 
-class UpdateAvatarUserSerializer(serializers.ModelSerializer):
+class UpdateAvatarUserSerializer(serializersCore.ModelSerializer):
     class Meta:
         model = User
         fields = ['avatar']
@@ -117,8 +111,19 @@ class UpdateAvatarUserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         user = self.context['request'].user
         if user.id != instance.pk:
-            raise serializers.ValidationError({"authorize": "You dont have permission for this user."})
+            raise serializersCore.ValidationError({"authorize": "You dont have permission for this user."})
         instance.avatar = validated_data['avatar']  
         if validated_data:
             instance.save()    
         return instance
+
+
+class SavedVideoSerializer(ModelSerializer):
+    author = UserSerializer(read_only=False)
+    saved = VideosSavedSerializer(read_only=False)
+    # print(serializerBase)
+    
+    class Meta:
+        model = SavedVideoModel
+        fields = '__all__'
+        

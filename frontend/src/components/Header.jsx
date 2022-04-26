@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Layout } from 'antd';
+import { Layout, List } from 'antd';
 import '../style/Header.scss'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
@@ -15,18 +15,20 @@ const Header = ({ onSearchHandle }) => {
   const navi = useNavigate()
   const [search, setSearch] = useState(null)
 
-  const onSearch =async () => {
+  const onSearch = async () => {
     const res = await axios.get(`http://localhost:8000/api/search-video/?search=${search}`)
     onSearchHandle(res.data)
     navi(`search/?search=${search}`)
   }
 
-  
+
 
   return (
     <Header className='header-container'>
 
-      <Search placeholder="input search text" value={search} onChange={(e) => setSearch(e.target.value)} onSearch={onSearch} enterButton />
+      <Search placeholder="input search text" value={search} onChange={(e) => setSearch(e.target.value)} onSearch={onSearch} enterButton >
+        
+      </Search>
       <ul>
         <li>
           <Link to='/'>Header</Link>

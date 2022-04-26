@@ -23,7 +23,7 @@ const Search = ({ SearchList, onSearchHandle, check }) => {
     <div className='search-container'>
       {SearchList.results && SearchList.results.map(item => {
 
-        return <Card className='search-item-group' key={item.uuid} style={{ width: '100%', marginTop: 16 }}>
+        return <Card bordered={false} className='search-item-group' key={item.uuid} style={{ width: '100%', marginTop: 16 }}>
 
           <Meta
 

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ChangePasswordView, CustomUserCreate, BlacklistTokenUpdateView, UpdateNameProfileView,UpdateAvatarProfileView
+from .views import ChangePasswordView, CustomUserCreate, BlacklistTokenUpdateView, UpdateNameProfileView,UpdateAvatarProfileView, savedVideo
 
 app_name = 'user'
 
@@ -8,5 +8,7 @@ urlpatterns = [
     path('change_password/<int:pk>/', ChangePasswordView.as_view(), name='auth_change_password'),
     path('update_name/<int:pk>/', UpdateNameProfileView.as_view(), name='auth_update_profile'),
     path('update_avatar/<int:pk>/', UpdateAvatarProfileView.as_view(), name='auth_update_profile'),
+    path('saved-video/<int:pk>/', savedVideo, name='save-video'),
     path('logout/blacklist/', BlacklistTokenUpdateView.as_view(), name='blacklist')
+    
 ]

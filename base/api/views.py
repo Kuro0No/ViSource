@@ -1,4 +1,5 @@
 from os import access
+import re
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -171,17 +172,7 @@ def getWatchedVideo(request,pk):
         # return Response(serializers.data)
         pass
 
-
-
-
-# @api_view(['GET'])
-# def getSearchVideos(request):
-#     if request.method == "GET":
-#         videosq = ViSource.objects.filter(title__contains='MEET').order_by('-created')
-#         filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
-#         search_fields = ('title', )
-#         serializers = VideosListSerializer(videosq, many=True)
-#         return Response(serializers.data)
+    #   return Response(serializers.data)
 
 class getSearchVideos(viewsets.ModelViewSet):
     queryset = ViSource.objects.all()
@@ -191,4 +182,6 @@ class getSearchVideos(viewsets.ModelViewSet):
     # filter_fields = ('title',)
     search_fields = ('title',)
     
-        
+
+
+    

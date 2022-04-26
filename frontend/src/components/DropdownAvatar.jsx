@@ -20,11 +20,11 @@ const DropdownAvatar = () => {
                     <>
                         <Menu>
 
-                            <Menu.Item eventKey='1' key={1} icon={<ProfileOutlined style={{ fontSize: 17 }} />}>
+                            {/* <Menu.Item eventKey='1' key={1} icon={<ProfileOutlined style={{ fontSize: 17 }} />}>
                                 <Link to='/profile'>
                                     Profile
-                                </Link>
-                            </Menu.Item>
+                                </Link> 
+                            </Menu.Item> */}
                             <Menu.Item eventKey='2' icon={<SettingOutlined />}>
                                 <Link to='/setting'>
                                     Setting

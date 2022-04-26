@@ -1,7 +1,10 @@
-from email.policy import default
 import uuid
-from django.db import models
+from django.conf import settings
+from django.db import models 
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin
+# from base.models import ViSource
+
+
 
 class UserManager(BaseUserManager):
     use_in_migrations=True
@@ -69,4 +72,11 @@ class User(AbstractBaseUser,PermissionsMixin):
     def __str__(self):
         return self.email
 
-    
+
+class SavedVideoModel(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    saved = models.ForeignKey('base.ViSource', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f'{self.author.name}'
+

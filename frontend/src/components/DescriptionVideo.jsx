@@ -76,7 +76,7 @@ const DescriptionVideo = ({ detail }) => {
                     </Card>
                 </Col>
                 <Col style={{ textAlign: 'right' }} span={6}>
-                    {user && user.user_id == detail?.author?.id &&
+                    {user && user.user_id == detail?.author?.id ?
                         <>
                             <Button onClick={() => setIsModalVisible(true)} type="primary" danger>
                                 Delete Video
@@ -88,11 +88,11 @@ const DescriptionVideo = ({ detail }) => {
                                 </>
                             </Modal>
                         </>
-                        // : <>
-                        //     <Button onClick={handleSubscribe} type="primary" >
-                        //         Subscribe
-                        //     </Button>
-                        // </>
+                        : <>
+                            <Button onClick={handleSubscribe} type="primary" >
+                                Save video
+                            </Button>
+                        </>
                     }
                 </Col>
             </Row>

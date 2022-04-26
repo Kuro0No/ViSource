@@ -10,14 +10,15 @@ import moment from 'moment';
 const ListVideo = () => {
     const { Meta } = Card;
     const { list } = UseFetch(`http://127.0.0.1:8000/api/list-videos/`)
+    console.log(list)
 
     return (
         <>
-            <Row gutter={[16, 24]}>
+            <Row className='home-videos' gutter={[16, 24]}>
                 {list.map(item => {
 
                     return (
-                        <Col key={item?.uuid} className="gutter-row home-videos" span={6}>
+                        <Col xs={12} lg={6} key={item?.uuid} className="gutter-row" span={6}>
                             <Link  to={`watch/${item?.uuid}`}>
 
                                 <Card

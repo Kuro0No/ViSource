@@ -1,14 +1,14 @@
-import jwt
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from user.models import User
-from .serializers import ChangePasswordSerializer, RegisterUserSerializer, UpdateNameUserSerializer,UpdateAvatarUserSerializer  
+from user.models import  SavedVideoModel, User
+from .serializers import ChangePasswordSerializer, RegisterUserSerializer, SavedVideoSerializer, UpdateNameUserSerializer,UpdateAvatarUserSerializer  
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
+from rest_framework.decorators import api_view,permission_classes
 
 
 
@@ -65,3 +65,14 @@ class UpdateAvatarProfileView(generics.UpdateAPIView):
 
     queryset = User.objects.all()
     serializer_class = UpdateAvatarUserSerializer
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+# authentication_classes = [JWTAuthentication]
+def savedVideo(request,pk):
+    if request.method =='GET':
+        saved = SavedVideoModel.objects.filter(id=pk)
+        serializer = SavedVideoSerializer(saved, many=True)
+        return Response(serializer.data)
+    
+
