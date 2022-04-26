@@ -8,7 +8,7 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(User,UserAdmin)
 
 class SavedVideoAdmin(admin.ModelAdmin):
-    list_display = ('email','id','name','is_active', 'is_staff', 'is_superuser')
-    readonly_fields = ['last_login', 'id', ]
-admin.site.register(SavedVideoModel)
+    list_display = ('user','saved','id')
+    readonly_fields = ['id', ]
+admin.site.register(SavedVideoModel,SavedVideoAdmin)
 

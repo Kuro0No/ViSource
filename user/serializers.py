@@ -19,7 +19,7 @@ class VideosSavedSerializer(ModelSerializer):
     author =  UserSerializer(read_only=False)
     class Meta:
         model= ViSource
-        fields = ['title','video','image','description','created','author',]
+        fields = ['title','video','image','description','created','author','uuid']
 
 
 class RegisterUserSerializer(serializersCore.ModelSerializer):
@@ -119,7 +119,7 @@ class UpdateAvatarUserSerializer(serializersCore.ModelSerializer):
 
 
 class SavedVideoSerializer(ModelSerializer):
-    author = UserSerializer(read_only=False)
+    user = UserSerializer(read_only=False)
     saved = VideosSavedSerializer(read_only=False)
     # print(serializerBase)
     

@@ -3,6 +3,7 @@ import re
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from base.api.pagination import CustomPageNumberPagination
 from base.api.serializers import CommentsListSerializer, RepCommentListSerializer, VideosListSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import viewsets
@@ -11,6 +12,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from user.models import User
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.pagination import PageNumberPagination
 
 
 
@@ -77,11 +79,20 @@ def getRoutes(request):
 
 @api_view(['GET'])
 def getVideos(request):
+
     if request.method == "GET":
+    #convert sang pagination
+    #custom pagination
+        paginator = CustomPageNumberPagination() #1
+        #hoặc pagenation mặc định
+        # paginator = PageNumberPagination() #1 ( dùng mặc định của djrestframework)
+
+        paginator.page_size = 10 #2
         videosList = ViSource.objects.all()
+        result_page = paginator.paginate_queryset(videosList, request) #3
         serializers = VideosListSerializer(videosList, many=True)
      
-        return Response(serializers.data)
+        return paginator.get_paginated_response(serializers.data) #4
 
 @api_view(['GET', 'DELETE'])
 def getVideo(request,pk):

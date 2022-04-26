@@ -4,6 +4,7 @@ from rest_framework.serializers import ModelSerializer,SerializerMethodField
 
 from base.models import RepComment, ViSource, Comment
 from user.serializers import UserSerializer
+from rest_framework import viewsets
 
 
 class VideosListSerializer(ModelSerializer):
@@ -28,7 +29,7 @@ class CommentsListSerializer(ModelSerializer):
             total = len(count_rep_comment)
             return total
         
-class RepCommentListSerializer(ModelSerializer):
+class RepCommentListSerializer(ModelSerializer, viewsets.ModelViewSet):
     user = UserSerializer(read_only=False)
     class Meta:
         model= RepComment

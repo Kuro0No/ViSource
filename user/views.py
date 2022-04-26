@@ -1,3 +1,4 @@
+import re
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import status
@@ -8,7 +9,7 @@ from .serializers import ChangePasswordSerializer, RegisterUserSerializer, Saved
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
-from rest_framework.decorators import api_view,permission_classes
+from rest_framework.decorators import api_view,permission_classes,authentication_classes
 
 
 
@@ -66,13 +67,26 @@ class UpdateAvatarProfileView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UpdateAvatarUserSerializer
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
-# authentication_classes = [JWTAuthentication]
+@authentication_classes( [JWTAuthentication])
 def savedVideo(request,pk):
-    if request.method =='GET':
-        saved = SavedVideoModel.objects.filter(id=pk)
-        serializer = SavedVideoSerializer(saved, many=True)
-        return Response(serializer.data)
+    data = request.data
+    if request.user.id == pk:
+        if request.method =='GET':
+            saved = SavedVideoModel.objects.filter(user=request.user)
+            serializer = SavedVideoSerializer(saved, many=True)
+            return Response(serializer.data)
+        if request.method =='POST':
+            
+            saved = SavedVideoModel.objects.create(
+                user = User.objects.get(id=int(data['user']['id'])),
+                saved =  SavedVideoModel.objects.get(uuid=data['saved']['uuid'])
+            )
+            return Response(True)
+    else:
+        return Response({"authorize": "You dont have permission for this user."})
+
+   
     
 
