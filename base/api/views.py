@@ -78,7 +78,7 @@ def getRoutes(request):
     return Response(routes)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def getVideos(request):
 
     if request.method == "GET":
@@ -95,6 +95,24 @@ def getVideos(request):
         serializers = VideosListSerializer(videosList, many=True)
      
         return paginator.get_paginated_response(serializers.data) #4
+
+
+    if request.method == "POST":
+        data = request.data
+        videos = ViSource.objects.create(
+            title= data['title'],
+            uuid = data['uuid'],
+            author = User.objects.get(id=int(data['author']['id'])),
+            video = data['video'],
+            image = data['image'],
+            description = data['description'],
+            created = data['created'],
+            category = data['category']
+        )
+        serializers = VideosListSerializer(videos, many=True)
+        
+
+        return Response(serializers.data)
 
 @api_view(['GET', 'DELETE'])
 def getVideo(request,pk):

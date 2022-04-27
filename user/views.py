@@ -47,7 +47,7 @@ class BlacklistTokenUpdateView(APIView):
 class ChangePasswordView(generics.UpdateAPIView):
     # permission_classes = (IsAuthenticated,)
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     queryset = User.objects.all()
     serializer_class = ChangePasswordSerializer
