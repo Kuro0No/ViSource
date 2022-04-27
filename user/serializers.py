@@ -4,6 +4,8 @@ from base.api import serializers as serializersBase
 from base.models import ViSource
 from .models import  SavedVideoModel, User
 from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+
 
 
 class UserSerializer(ModelSerializer):
@@ -121,9 +123,17 @@ class UpdateAvatarUserSerializer(serializersCore.ModelSerializer):
 class SavedVideoSerializer(ModelSerializer):
     user = UserSerializer(read_only=False)
     saved = VideosSavedSerializer(read_only=False)
-    # print(serializerBase)
     
     class Meta:
         model = SavedVideoModel
         fields = '__all__'
-        
+    
+
+class YourVideoSerializer(ModelSerializer):
+    author = UserSerializer(read_only=False)
+
+    
+    class Meta:
+        model = ViSource
+        fields = '__all__'
+    

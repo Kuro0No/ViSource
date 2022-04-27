@@ -1,9 +1,10 @@
+from ast import Return
 from os import access
 import re
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from base.api.pagination import CustomPageNumberPagination
+from base.api.pagination import CustomPageNumberPagination, CustomPageSearchNumberPagination
 from base.api.serializers import CommentsListSerializer, RepCommentListSerializer, VideosListSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import viewsets
@@ -81,6 +82,7 @@ def getRoutes(request):
 def getVideos(request):
 
     if request.method == "GET":
+        
     #convert sang pagination
     #custom pagination
         paginator = CustomPageNumberPagination() #1
@@ -186,13 +188,16 @@ def getWatchedVideo(request,pk):
     #   return Response(serializers.data)
 
 class getSearchVideos(viewsets.ModelViewSet):
-    queryset = ViSource.objects.all()
+    queryset = ViSource.objects.all().order_by('-created')
+    pagination_class = CustomPageSearchNumberPagination #dùng pagination với Class
     serializer_class = VideosListSerializer
     filter_backends = [DjangoFilterBackend,filters.SearchFilter,] #filters.BaseFilterBackend, filters.OrderingFilter,
     ordering = ('-created',)
     # filter_fields = ('title',)
     search_fields = ('title',)
-    
+   
+
+
 
 
     

@@ -33,9 +33,7 @@ const Save = () => {
                     <div >
                         <FolderOpenOutlined style={{ fontSize: 100 }} />
                         <h5>You need to Login to see your saved video</h5>
-                        <Link type='button' className='btn btn-outline-primary' to='/login' danger >
-                            Login
-                        </Link>
+                        
                     </div>
                 </div>
                 :

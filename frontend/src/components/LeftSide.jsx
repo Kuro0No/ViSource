@@ -27,19 +27,19 @@ const LeftSide = () => {
                 <HistoryOutlined title='Watched' />
                 <span>Video watched</span>
             </Link>
-            {user ?
+            
                 <Link to='/your-video' className='nav-side-group'>
                     <PlaySquareOutlined title='Your videos' />
                     <span>Your videos</span>
                 </Link>
-                :
-                <div className='nav-side-group'>
+                
+                {!user && <div className='nav-side-group'>
                     <Link type='button' className='btn btn-outline-primary' to='/login' danger >
                         Login
                     </Link>
-                </div>
+                </div>}
 
-            }
+            
 
         </div>
     )

@@ -14,7 +14,8 @@ const UseFetch = (url) => {
     useEffect(() => {
         async function getData() {
             const res = await axios.get(url)
-            setList(res.data)
+            setList(res.data.results)
+            
 
         }
         getData()

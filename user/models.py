@@ -75,7 +75,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 class SavedVideoModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    saved = models.ForeignKey('base.ViSource', on_delete=models.CASCADE, null=True)
+    saved = models.ForeignKey('base.ViSource', on_delete=models.CASCADE, null=True,unique=True)
 
     def __str__(self):
         return f'{self.user.name}, \n {self.saved.title}'

@@ -16,9 +16,13 @@ const Header = ({ onSearchHandle }) => {
   const [search, setSearch] = useState(null)
 
   const onSearch = async () => {
-    const res = await axios.get(`http://localhost:8000/api/search-video/?search=${search}`)
-    onSearchHandle(res.data)
-    navi(`search/?search=${search}`)
+    if (search) {
+      const res = await axios.get(`http://localhost:8000/api/search-video/?search=${search}`)
+      onSearchHandle(res.data)
+
+      navi(`search/?search=${search}`)
+      
+    }
   }
 
 
@@ -27,7 +31,7 @@ const Header = ({ onSearchHandle }) => {
     <Header className='header-container'>
 
       <Search placeholder="input search text" value={search} onChange={(e) => setSearch(e.target.value)} onSearch={onSearch} enterButton >
-        
+
       </Search>
       <ul>
         <li>

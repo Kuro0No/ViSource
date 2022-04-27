@@ -1,13 +1,13 @@
 import { Avatar, Card, Col, Image } from 'antd'
 import React, { memo, useEffect } from 'react'
 import { Empty } from 'antd';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../style/Search.scss'
 
 const { Meta } = Card;
 
-const Search = ({ SearchList, onSearchHandle, check }) => {
+const Search = ({ SearchList, onSearchHandle }) => {
   const location = useLocation()
   let params = new URLSearchParams(location.search);
   let search = params.get('search')
@@ -16,6 +16,7 @@ const Search = ({ SearchList, onSearchHandle, check }) => {
     async function getData() {
       const res = await axios.get(`http://localhost:8000/api/search-video/?search=${search}`)
       onSearchHandle(res.data)
+      
     }
     getData()
   }, [search])
@@ -23,29 +24,31 @@ const Search = ({ SearchList, onSearchHandle, check }) => {
     <div className='search-container'>
       {SearchList.results && SearchList.results.map(item => {
 
-        return <Card bordered={false} className='search-item-group' key={item.uuid} style={{ width: '100%', marginTop: 16 }}>
+        return <Link  key={item.uuid} to={`/watch/${item.uuid}`}>
+          <Card bordered={false} className='search-item-group' style={{ width: '100%', marginTop: 16 }}>
 
-          <Meta
+            <Meta
 
-            avatar={
-              <Image
-                preview={false}
-                src={item.image}
+              avatar={
+                <Image
+                  preview={false}
+                  src={item.image}
 
-              />
-           }
-            title={item.title}
-            description={<>
-              <div style={{ display: 'flex', padding: '5px 0' }}>
-                <Avatar src={item.author.avatar} />
-                <strong style={{ padding: '0 7px', }}>{item.author.name}</strong>
-              </div>
-              <span className='description'>{item.description}</span>
-            </>}
-          />
+                />
+              }
+              title={item.title}
+              description={<>
+                <div style={{ display: 'flex', padding: '5px 0' }}>
+                  <Avatar src={item.author.avatar} />
+                  <strong style={{ padding: '0 7px', }}>{item.author.name}</strong>
+                </div>
+                <span className='description'>{item.description}</span>
+              </>}
+            />
 
 
-        </Card>
+          </Card>
+        </Link  >
       })}
 
       {SearchList.results && SearchList.results.length === 0 &&

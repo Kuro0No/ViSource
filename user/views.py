@@ -1,11 +1,13 @@
 import re
+from base.models import ViSource
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from user.models import  SavedVideoModel, User
-from .serializers import ChangePasswordSerializer, RegisterUserSerializer, SavedVideoSerializer, UpdateNameUserSerializer,UpdateAvatarUserSerializer  
+from user.pagination import CustomYourVideoPageNumberPagination
+from .serializers import ChangePasswordSerializer, RegisterUserSerializer, SavedVideoSerializer, UpdateNameUserSerializer,UpdateAvatarUserSerializer, YourVideoSerializer  
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
@@ -78,14 +80,26 @@ def savedVideo(request,pk):
             serializer = SavedVideoSerializer(saved, many=True)
             return Response(serializer.data)
         if request.method =='POST':
-            
             saved = SavedVideoModel.objects.create(
-                user = User.objects.get(id=int(data['user']['id'])),
-                saved =  SavedVideoModel.objects.get(uuid=data['saved']['uuid'])
+                user = User.objects.get(id=int(data['user']['user_id'])),
+                saved =  ViSource.objects.get(uuid=data['saved']['uuid'])
             )
-            return Response(True)
+            return Response('Success')
     else:
         return Response({"authorize": "You dont have permission for this user."})
+
+
+@api_view(['GET','DELETE'])
+def getYourVideo(request,pk):
+    if request.method =='GET':
+        paginator = CustomYourVideoPageNumberPagination()
+        paginator.page_size = 10
+        yourVideos = ViSource.objects.filter(author=pk)
+        result_page = paginator.paginate_queryset(yourVideos, request)
+        serializers = YourVideoSerializer(yourVideos, many=True)
+       
+        return paginator.get_paginated_response(serializers.data)
+    
 
    
     

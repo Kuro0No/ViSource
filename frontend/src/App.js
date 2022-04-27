@@ -12,6 +12,7 @@ import Register from './pages/Register';
 import Save from './pages/Save';
 import Search from './pages/Search';
 import Setting from './pages/Setting';
+import YourVideo from './pages/YourVideo';
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path='/history' element={<History />} />
           <Route path='/saved' element={<Save />} />
           <Route path='/setting' element={user ? <Setting /> : <Navigate to='/login' />} />
+          <Route path='/your-video' element={<YourVideo />} />
           <Route path='/search' element={<Search SearchList={SearchList} onSearchHandle={onSearchHandle} />} />
         </Routes>
       </Layout>

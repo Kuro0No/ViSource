@@ -1,19 +1,19 @@
 import React, { useRef, useState } from 'react'
 import '../style/DescriptionVideo.scss'
-import { Divider, Tag } from 'antd';
+import { Divider, Dropdown, Menu, Space, Tag } from 'antd';
 import moment from 'moment'
 import { Skeleton, Switch, Card, Avatar } from 'antd';
 import { Row, Col } from 'antd';
 import { Button, Modal } from 'antd';
 import { useAuth } from '../hooks/useAuth';
-import { InfoCircleOutlined } from '@ant-design/icons'
+import { DownOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
 
 
 const DescriptionVideo = ({ detail }) => {
-    const { user } = useAuth()
+    const { user ,authTokens} = useAuth()
     const [isModalVisible, setIsModalVisible] = useState(false);
     const { id } = useParams()
     const navigate = useNavigate()
@@ -29,14 +29,34 @@ const DescriptionVideo = ({ detail }) => {
             alert('Failed to delete this video')
         }
     }
-    const handleSubscribe = async () => {
-        const res = await axios.post(`http://127.0.0.1:8000/api/list-subcriber/${detail.author.id}/`, {
-            username: user.name,
-            id: user.user_id,
-            avatar: user.avatar,
-            subcriber: user.subcriber
-        })
+    const handleSaveVideo = () => {
+        try {
+            axios.post(`http://localhost:8000/api/user/saved-video/${user.user_id}/`, {
+                user: user,
+                saved:detail
+            },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${authTokens.access}`
+                    }
+                }
+            )
+            alert('Success')
+        } catch(error){
+            alert(error)
+        }
     }
+
+    const menu = (
+        <Menu>
+            <Menu.Item onClick={() => setIsModalVisible(true)}>
+                Delete Video
+            </Menu.Item>
+            <Menu.Item onClick={handleSaveVideo}>
+                Save Video
+            </Menu.Item>
+        </Menu>
+    );
 
     return (
         <div className='description-video-container '>
@@ -76,24 +96,24 @@ const DescriptionVideo = ({ detail }) => {
                     </Card>
                 </Col>
                 <Col style={{ textAlign: 'right' }} span={6}>
-                    {user && user.user_id == detail?.author?.id ?
-                        <>
-                            <Button onClick={() => setIsModalVisible(true)} type="primary" danger>
-                                Delete Video
-                            </Button>
-                            <Modal title="You are trying to delete this video." visible={isModalVisible} onOk={handleOkDelete} onCancel={() => setIsModalVisible(false)}>
-                                <>
-                                    <InfoCircleOutlined className='me-2' style={{ fontSize: '40px' }} />
-                                    <span>Are you sure to delete this video?</span>
-                                </>
-                            </Modal>
-                        </>
-                        : <>
-                            <Button onClick={handleSubscribe} type="primary" >
-                                Save video
-                            </Button>
-                        </>
-                    }
+                    {user && user.user_id == detail?.author?.id &&
+                        <Modal title="You are trying to delete this video." visible={isModalVisible} onOk={handleOkDelete} onCancel={() => setIsModalVisible(false)}>
+                            <>
+                                <InfoCircleOutlined className='me-2' style={{ fontSize: '40px' }} />
+                                <span>Are you sure to delete this video?</span>
+                            </>
+                        </Modal>}
+
+
+
+                    <Dropdown trigger={['click']} overlay={menu}>
+                        <Button>
+                            <Space>
+                                Handle
+                                <DownOutlined />
+                            </Space>
+                        </Button>
+                    </Dropdown>
                 </Col>
             </Row>
         </div >
