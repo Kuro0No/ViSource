@@ -6,6 +6,7 @@
     position: relative;
     .ant-card-body{
         padding: 10px 7px;
+        height: 90px;
     }
     .ant-card-meta-detail{
         white-space: normal;
@@ -17,8 +18,9 @@
     .yours-bef-loggin {
         margin: auto;
         position: absolute;
-        left: 30%;
-        top: 20%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-100%);
     
         .anticon-folder-open {
             display: flex;
@@ -28,6 +30,11 @@
             display: flex;
             justify-content: center;
         }
+        
+    }
+    img{
+        height: 250px;
+        object-fit: fill;
     }
 
 }

@@ -52,7 +52,8 @@ class ChangePasswordView(generics.UpdateAPIView):
 
     queryset = User.objects.all()
     serializer_class = ChangePasswordSerializer
-
+    
+    
 
 
 class UpdateNameProfileView(generics.UpdateAPIView):

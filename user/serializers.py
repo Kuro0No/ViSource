@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers as serializersCore
 from base.api import serializers as serializersBase
 from base.models import ViSource
-from .models import  SavedVideoModel, User
+from .models import  SavedVideoModel, User #SavedVideoModel
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 

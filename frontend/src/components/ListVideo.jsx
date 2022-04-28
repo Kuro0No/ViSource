@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card } from 'antd';
 import UseFetch from '../hooks/UseFetch';
 import { Row, Col, Divider,Avatar } from 'antd';
@@ -10,6 +10,9 @@ import moment from 'moment';
 const ListVideo = () => {
     const { Meta } = Card;
     const { list } = UseFetch(`http://127.0.0.1:8000/api/list-videos/`)
+    const [listData,setListData] = useState(list)
+
+    
     
 
     return (
@@ -18,7 +21,7 @@ const ListVideo = () => {
                 {list.map(item => {
 
                     return (
-                        <Col xs={12} lg={6} key={item?.uuid} className="gutter-row" span={6}>
+                        <Col xs={24} sm={12} md={8} lg={6} key={item?.uuid} className="gutter-row" span={6}>
                             <Link  to={`watch/${item?.uuid}`}>
 
                                 <Card

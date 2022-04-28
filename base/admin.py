@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import models
 
-from base.models import Sector, ViSource,Comment,RepComment
+from base.models import Sector, ViSource,Comment,RepComment, CategoryModel
 
 # Register your models here.
 
@@ -37,3 +37,5 @@ class SectorAdmin(admin.ModelAdmin):
 
 admin.site.register(Sector,SectorAdmin)
 
+
+admin.site.register(CategoryModel)

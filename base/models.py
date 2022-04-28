@@ -24,6 +24,10 @@ from django import forms
 #     USERNAME_FIELD = 'email'
 #     REQUIRED_FIELDS = []
 
+class CategoryModel(models.Model):
+    genres = models.CharField( null=True, max_length=50)
+    def __str__(self):
+        return f"{self.genres} "
 
 
 class ViSource(models.Model):
@@ -36,20 +40,22 @@ class ViSource(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     uuid = models.UUIDField(primary_key = True, default =uuid.uuid4, unique=True, editable=False )
     
-    MY_CHOICES = [
-       ('Music', 'Music'),
-        ('Animation', 'Animation film'),
-        ('Nature', 'Nature'),   
-        ('VideoGame', 'Video Game')
-    ]
-    category = MultiSelectField(choices=MY_CHOICES, null=True)
+    # MY_CHOICES = [
+    #    ('Music', 'Music'),
+    #     ('Animation', 'Animation film'),
+    #     ('Nature', 'Nature'),   
+    #     ('VideoGame', 'Video Game')
+    # ]
+    # category = MultiSelectField(choices=MY_CHOICES, null=True)
+
+    genres = models.ManyToManyField(CategoryModel, null=True)
 
         
 
     def __str__(self):
         return f"{self.title[0:10]} "
 
-    
+
 
 
 

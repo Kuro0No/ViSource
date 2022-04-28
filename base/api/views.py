@@ -1,6 +1,7 @@
 from ast import Return
 from os import access
 import re
+from unicodedata import category
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -8,7 +9,7 @@ from base.api.pagination import CustomPageNumberPagination, CustomPageSearchNumb
 from base.api.serializers import CommentsListSerializer, RepCommentListSerializer, VideosListSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import viewsets
-from base.models import  ViSource,Comment,RepComment
+from base.models import  CategoryModel, ViSource,Comment,RepComment
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from user.models import User
@@ -89,10 +90,13 @@ def getVideos(request):
         #hoặc pagenation mặc định
         # paginator = PageNumberPagination() #1 ( dùng mặc định của djrestframework)
 
+        
         paginator.page_size = 8 #2
         videosList = ViSource.objects.all().order_by('-created')
         result_page = paginator.paginate_queryset(videosList, request) #3
-        serializers = VideosListSerializer(videosList, many=True)
+        serializers = VideosListSerializer(result_page, many=True)
+        # ViSource.objects.filter(genres=CategoryModel.objects.filter(genres='Music')[0])
+        
      
         return paginator.get_paginated_response(serializers.data) #4
 
@@ -107,7 +111,7 @@ def getVideos(request):
             image = data['image'],
             description = data['description'],
             created = data['created'],
-            category = data['category']
+            genres = data['genres']
         )
         serializers = VideosListSerializer(videos, many=True)
         
@@ -211,10 +215,11 @@ class getSearchVideos(viewsets.ModelViewSet):
     serializer_class = VideosListSerializer
     filter_backends = [DjangoFilterBackend,filters.SearchFilter,] #filters.BaseFilterBackend, filters.OrderingFilter,
     ordering = ('-created',)
-    # filter_fields = ('title',)
+    filter_fields = ('genres',)
     search_fields = ('title',)
    
 
+    
 
 
 

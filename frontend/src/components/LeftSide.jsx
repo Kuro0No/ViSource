@@ -15,33 +15,49 @@ const LeftSide = () => {
 
     return (
         <div className='menu-container'>
-            <Link to='/' className='nav-side-group'>
-                <HomeOutlined title='Home' />
-                <span>Home</span>
-            </Link>
-            <Link to='/saved' className='nav-side-group'>
-                <FolderOpenOutlined title='Saved' />
-                <span>Saved</span>
-            </Link>
-            <Link to='/history' className='nav-side-group'>
-                <HistoryOutlined title='Watched' />
-                <span>Video watched</span>
-            </Link>
-            
-                <Link to='/your-video' className='nav-side-group'>
-                    <PlaySquareOutlined title='Your videos' />
-                    <span>Your videos</span>
-                </Link>
-                
-                {!user && <div className='nav-side-group'>
-                    <Link type='button' className='btn btn-outline-primary' to='/login' danger >
-                        Login
+            <Menu >
+
+
+                <Menu.Item>
+
+                    <Link to='/' className='nav-side-group'>
+                        <HomeOutlined title='Home' />
+                        <span>Home</span>
                     </Link>
+                </Menu.Item>
+                <Menu.Item>
+
+                    <Link to='/saved' className='nav-side-group'>
+                        <FolderOpenOutlined title='Saved' />
+                        <span>Saved</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item  >
+
+                    <Link to='/history' className='nav-side-group'>
+                        <HistoryOutlined title='Watched' />
+                        <span>Video watched</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item>
+
+                    <Link to='/your-video' className='nav-side-group'>
+                        <PlaySquareOutlined title='Your videos' />
+                        <span>Your videos</span>
+                    </Link>
+                </Menu.Item>
+
+                {!user && <div className='nav-side-group'>
+                    <Menu.Item>
+
+                        <Link type='button' className='btn btn-outline-primary' to='/login' danger >
+                            Login
+                        </Link>
+                    </Menu.Item>
                 </div>}
-
-            
-
-        </div>
+            </Menu>
+        </div >
     )
 }
 

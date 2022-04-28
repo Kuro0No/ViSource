@@ -54,20 +54,20 @@ const DescriptionVideo = ({ detail }) => {
 
     const menu = (
         <Menu>
-            <Menu.Item onClick={() => setIsModalVisible(true)}>
+            {user.user_id === detail?.author?.id && <Menu.Item onClick={() => setIsModalVisible(true)}>
                 Delete Video
-            </Menu.Item>
+            </Menu.Item>}
             <Menu.Item onClick={handleSaveVideo}>
                 Save Video
             </Menu.Item>
         </Menu>
     );
+    
 
-   
 
     return (
         <div className='description-video-container '>
-            {detail.length > 0 && detail.category.map((item, i) => {
+            {Object.keys(detail).length > 0 && detail.genres.map((item, i) => {
                 return <Tag key={i} color="#2db7f5">{item}</Tag>
 
             })

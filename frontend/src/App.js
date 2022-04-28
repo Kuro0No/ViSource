@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import LeftSide from './components/LeftSide';
@@ -16,42 +16,52 @@ import YourVideo from './pages/YourVideo';
 
 
 function App() {
-  const { Sider } = Layout
-  const location = useLocation()
-  const { id } = useParams()
+  const { Sider, Content } = Layout
   const { user } = useAuth()
   const [SearchList, setSearchList] = useState([])
-  const navi = useNavigate()
-  
+  const [collapsed,setCollapsed] = useState(false)
+  const [width,setWidth] = useState(window.innerWidth)
+
 
   const onSearchHandle = useCallback((data) => {
     setSearchList(data)
   }, [])
+
+  useEffect(() => {
+     window.addEventListener('resize', () => {
+      setWidth(window.innerWidth)
+    })
+  },[])
+  useEffect(() => {
+    width >= 735 ? setCollapsed(false) : setCollapsed(true) 
+  })
   return (
     <div className="App">
       <Header onSearchHandle={onSearchHandle} />
       <Layout>
-       
-          <Sider breakpoint={['xs']} theme='light'>
-            <LeftSide />
-          </Sider>
 
-       
+        <Sider  collapsed={collapsed} theme='light'>
+          <LeftSide />
+        </Sider>
 
 
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/watch/:id' element={<Detail />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/history' element={<History />} />
-          <Route path='/saved' element={<Save />} />
-          <Route path='/setting' element={user ? <Setting /> : <Navigate to='/login' />} />
-          <Route path='/your-video' element={<YourVideo />} />
-          <Route path='/search' element={<Search SearchList={SearchList} onSearchHandle={onSearchHandle} />} />
-        </Routes>
+
+        <Content>
+
+          <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/watch/:id' element={<Detail />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/history' element={<History />} />
+            <Route path='/saved' element={<Save />} />
+            <Route path='/setting' element={user ? <Setting /> : <Navigate to='/login' />} />
+            <Route path='/your-video' element={<YourVideo />} />
+            <Route path='/search' element={<Search SearchList={SearchList} onSearchHandle={onSearchHandle} />} />
+          </Routes>
+        </Content>
       </Layout>
-    </div>
+    </div >
   );
 }
 

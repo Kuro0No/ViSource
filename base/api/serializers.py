@@ -1,17 +1,19 @@
-from dataclasses import field
-from pyexpat import model
-
-from pkg_resources import require
 from rest_framework.serializers import ModelSerializer,SerializerMethodField
 from rest_framework import serializers 
-
-from base.models import RepComment, ViSource, Comment
+from base.models import RepComment, ViSource, Comment, CategoryModel
 from user.serializers import UserSerializer
 from rest_framework import viewsets
 
+class CategorySerializer(ModelSerializer):
+    
+
+    class Meta:
+        model= CategoryModel
+        fields ='__all__'
 
 class VideosListSerializer(ModelSerializer):
     author =  UserSerializer(read_only=False)
+    genres= serializers.StringRelatedField(many=True)
    
     class Meta:
         model= ViSource
@@ -42,6 +44,7 @@ class RepCommentListSerializer(ModelSerializer, viewsets.ModelViewSet):
         model= RepComment
         fields = '__all__'
     
+
 
 # class RelatedVideoSerializer(ModelSerializer):
 #     class Meta: 

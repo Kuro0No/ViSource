@@ -1,14 +1,17 @@
 .save-bef-loggin {
     margin: auto;
     position: absolute;
-    left: 30%;
-    top: 20%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -100%);
+    
 
     .anticon-folder-open {
         display: flex;
         justify-content: center;
     }
-    a{
+
+    a {
         display: flex;
         justify-content: center;
     }
@@ -18,15 +21,18 @@
     width: 100%;
     min-height: calc(100vh - 100px);
     position: relative;
-    .ant-card-body{
+
+    .ant-card-body {
         padding: 10px 7px;
+
     }
-    .ant-card-meta-detail{
+
+    .ant-card-meta-detail {
         white-space: normal;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         display: -webkit-box;
-        
+
     }
 
 }
