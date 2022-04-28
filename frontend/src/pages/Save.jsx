@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
-import { FolderOpenOutlined } from '@ant-design/icons'
+import { DeleteOutlined, FolderOpenOutlined } from '@ant-design/icons'
 import '../style/Save.scss'
 import { Link } from 'react-router-dom'
-import { Row, Col, Card, Avatar } from 'antd';
+import { Row, Col, Card, Avatar, Button } from 'antd';
 import Meta from 'antd/lib/card/Meta'
 import axios from 'axios'
 
@@ -23,6 +23,16 @@ const Save = () => {
         }
         getData()
     }, [])
+    const handleDeleteSave = async(item,id) => {
+        const res = await axios.delete(`http://localhost:8000/api/user/saved-video/${user.user_id}/?delete=${item.saved.uuid}`, {
+            headers: {
+                Authorization: `Bearer ${authTokens.access}`
+            }
+            
+        })
+        setSavedList( savedList.filter(item => item.id !== id))
+       
+    }
 
 
     return (
@@ -33,7 +43,7 @@ const Save = () => {
                     <div >
                         <FolderOpenOutlined style={{ fontSize: 100 }} />
                         <h5>You need to Login to see your saved video</h5>
-                        
+
                     </div>
                 </div>
                 :
@@ -41,12 +51,21 @@ const Save = () => {
                     <div>
                         <Row gutter={[16, 24]}>
                             {savedList.map(item =>
-                                <Col key={item.id} span={6}>
+                                <Col style={{position:'relative'}} key={item.id} span={6}>
+                                    <Button onClick={() => handleDeleteSave(item,item.id)} style={{ position: 'absolute', zIndex: 99, }} type="primary" icon={<DeleteOutlined />} danger >
+
+                                    </Button>
                                     <Link to={`/watch/${item.saved.uuid}`}>
                                         <Card
                                             hoverable
 
-                                            cover={<img alt="example" src={`http://localhost:8000${item.saved.image}`} />}
+                                            cover={
+
+
+                                                <img alt="example" src={`http://localhost:8000${item.saved.image}`} />
+
+
+                                            }
 
                                         >
                                             <Meta title={item.saved.title}

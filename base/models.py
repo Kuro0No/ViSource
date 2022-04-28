@@ -49,6 +49,8 @@ class ViSource(models.Model):
     def __str__(self):
         return f"{self.title[0:10]} "
 
+    
+
 
 
 class Sector(models.Model):

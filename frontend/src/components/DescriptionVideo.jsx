@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../style/DescriptionVideo.scss'
 import { Divider, Dropdown, Menu, Space, Tag } from 'antd';
 import moment from 'moment'
@@ -13,8 +13,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 
 const DescriptionVideo = ({ detail }) => {
-    const { user ,authTokens} = useAuth()
+    const { user, authTokens } = useAuth()
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [checkSaved, setCheckSaved] = useState([])
     const { id } = useParams()
     const navigate = useNavigate()
 
@@ -29,11 +30,11 @@ const DescriptionVideo = ({ detail }) => {
             alert('Failed to delete this video')
         }
     }
-    const handleSaveVideo = () => {
+    const handleSaveVideo = async () => {
         try {
-            axios.post(`http://localhost:8000/api/user/saved-video/${user.user_id}/`, {
+            const res = await axios.post(`http://localhost:8000/api/user/saved-video/${user.user_id}/`, {
                 user: user,
-                saved:detail
+                saved: detail
             },
                 {
                     headers: {
@@ -41,8 +42,12 @@ const DescriptionVideo = ({ detail }) => {
                     }
                 }
             )
-            alert('Success')
-        } catch(error){
+            if (res.status === 208) {
+                alert('This video already exist in your saved video')
+            } else {
+                alert('success')
+            }
+        } catch (error) {
             alert(error)
         }
     }
@@ -57,6 +62,8 @@ const DescriptionVideo = ({ detail }) => {
             </Menu.Item>
         </Menu>
     );
+
+   
 
     return (
         <div className='description-video-container '>

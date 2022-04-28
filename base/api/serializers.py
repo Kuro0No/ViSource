@@ -11,23 +11,13 @@ from rest_framework import viewsets
 
 
 class VideosListSerializer(ModelSerializer):
-    # author =  UserSerializer(read_only=False)
-    # title = serializers.CharField(max_length=100 , )
-    # # video= serializers.FileField(upload_to='videos/', null=True)
-    # # image = serializers.FileField(upload_to='images/',null=True)
-    # description = serializers.CharField(allow_null=True, allow_blank=True)
-    # created = serializers.DateTimeField(read_only=True)
+    author =  UserSerializer(read_only=False)
    
-    MY_CHOICES = [
-       ('Music', 'Music'),
-        ('Animation', 'Animation film'),
-        ('Nature', 'Nature'),   
-        ('VideoGame', 'Video Game')
-    ]
-    # category = MultiSelectField(choices=MY_CHOICES, null=True)
     class Meta:
         model= ViSource
         fields = '__all__'
+        
+       
 
     
 

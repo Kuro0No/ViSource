@@ -12,6 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
 from rest_framework.decorators import api_view,permission_classes,authentication_classes
+from rest_framework import status
 
 
 
@@ -69,7 +70,7 @@ class UpdateAvatarProfileView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UpdateAvatarUserSerializer
 
-@api_view(['GET','POST'])
+@api_view(['GET','POST',"DELETE"])
 @permission_classes([IsAuthenticated])
 @authentication_classes( [JWTAuthentication])
 def savedVideo(request,pk):
@@ -79,14 +80,28 @@ def savedVideo(request,pk):
             saved = SavedVideoModel.objects.filter(user=request.user)
             serializer = SavedVideoSerializer(saved, many=True)
             return Response(serializer.data)
+        
         if request.method =='POST':
-            saved = SavedVideoModel.objects.create(
-                user = User.objects.get(id=int(data['user']['user_id'])),
-                saved =  ViSource.objects.get(uuid=data['saved']['uuid'])
-            )
-            return Response('Success')
+            saved = SavedVideoModel.objects.filter(user=request.user)
+            check = saved.filter(saved=data['saved']['uuid']).exists()
+            if check :
+                return Response({'message: This video already exist in your video'}, status= status.HTTP_208_ALREADY_REPORTED)
+            else:
+                saved = SavedVideoModel.objects.create(
+                    user = User.objects.filter(id=pk)[0],
+                    saved =  ViSource.objects.filter(uuid=data['saved']['uuid'])[0]
+                )
+                return Response('Success', status = status.HTTP_200_OK)
+        if request.method =='DELETE':
+            
+            q = request.GET.get('delete')
+            saved = SavedVideoModel.objects.filter(user = pk)
+            deleteSaved = saved.filter(saved= q)
+            deleteSaved.delete()
+            return Response('This saved video was delete')
     else:
         return Response({"authorize": "You dont have permission for this user."})
+
 
 
 @api_view(['GET','DELETE'])

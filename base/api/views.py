@@ -89,8 +89,8 @@ def getVideos(request):
         #hoặc pagenation mặc định
         # paginator = PageNumberPagination() #1 ( dùng mặc định của djrestframework)
 
-        paginator.page_size = 10 #2
-        videosList = ViSource.objects.all()
+        paginator.page_size = 8 #2
+        videosList = ViSource.objects.all().order_by('-created')
         result_page = paginator.paginate_queryset(videosList, request) #3
         serializers = VideosListSerializer(videosList, many=True)
      
