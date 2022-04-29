@@ -9,11 +9,23 @@ class CategorySerializer(ModelSerializer):
 
     class Meta:
         model= CategoryModel
-        fields ='__all__'
+        fields =['id', 'genres']
 
 class VideosListSerializer(ModelSerializer):
     author =  UserSerializer(read_only=False)
-    genres= serializers.StringRelatedField(many=True)
+    # genres= serializers.StringRelatedField(many=True)
+    genres = CategorySerializer(read_only=True, many=True)
+   
+    class Meta:
+        model= ViSource
+        fields = '__all__'
+        
+       
+class SearchVideoSerializer(ModelSerializer):
+    author =  UserSerializer(read_only=False)
+    # genres= serializers.StringRelatedField(many=True)
+    genres = CategorySerializer(read_only=True, many=True)
+
    
     class Meta:
         model= ViSource

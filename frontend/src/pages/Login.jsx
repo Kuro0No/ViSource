@@ -6,7 +6,6 @@ import { useAuth } from '../hooks/useAuth';
 
 const Login = () => {
     const {loginUser,user} = useAuth()
-    console.log(user)
     return (
         <div className='login-container'>
             <Form

@@ -1,5 +1,5 @@
 import { Menu, Button } from 'antd';
-import { HomeOutlined, FolderOpenOutlined, HistoryOutlined, PlaySquareOutlined } from '@ant-design/icons';
+import { HomeOutlined, FolderOpenOutlined, HistoryOutlined, PlaySquareOutlined, LoginOutlined } from '@ant-design/icons';
 import React from 'react';
 import '../style/LeftSide.scss'
 import { useAuth } from '../hooks/useAuth';
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 
 
-const LeftSide = () => {
+const LeftSide = ({ collapsed }) => {
 
     const { user } = useAuth()
     const navigate = useNavigate()
@@ -18,44 +18,49 @@ const LeftSide = () => {
             <Menu >
 
 
-                <Menu.Item>
+                <Menu.Item icon={collapsed && <HomeOutlined />} key={1}>
 
                     <Link to='/' className='nav-side-group'>
-                        <HomeOutlined title='Home' />
+                        {!collapsed && <HomeOutlined title='Your videos' />}
                         <span>Home</span>
                     </Link>
                 </Menu.Item>
-                <Menu.Item>
+                <Menu.Item icon={collapsed && <FolderOpenOutlined />} key={2}>
 
                     <Link to='/saved' className='nav-side-group'>
-                        <FolderOpenOutlined title='Saved' />
+                        {!collapsed && <FolderOpenOutlined title='Your videos' />}
                         <span>Saved</span>
                     </Link>
                 </Menu.Item>
-                <Menu.Item  >
+                <Menu.Item icon={collapsed && <HistoryOutlined />} key={3} >
 
                     <Link to='/history' className='nav-side-group'>
-                        <HistoryOutlined title='Watched' />
+                        {!collapsed && <HistoryOutlined title='Your videos' />}
                         <span>Video watched</span>
                     </Link>
                 </Menu.Item>
 
-                <Menu.Item>
+                <Menu.Item icon={collapsed && <PlaySquareOutlined />} key={4}>
 
                     <Link to='/your-video' className='nav-side-group'>
-                        <PlaySquareOutlined title='Your videos' />
+                        {!collapsed && <PlaySquareOutlined title='Your videos' />}
                         <span>Your videos</span>
                     </Link>
                 </Menu.Item>
 
-                {!user && <div className='nav-side-group'>
-                    <Menu.Item>
+                {!user &&
+                    <Menu.Item icon={collapsed && <LoginOutlined />} key={5}>
 
-                        <Link type='button' className='btn btn-outline-primary' to='/login' danger >
-                            Login
+                        <Link to='/login' className='nav-side-group' >
+                            {!collapsed && <LoginOutlined title='Your videos' />}
+
+                            <span>Login</span>
+
                         </Link>
+
+
                     </Menu.Item>
-                </div>}
+                }
             </Menu>
         </div >
     )

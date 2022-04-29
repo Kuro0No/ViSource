@@ -15,10 +15,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 const DescriptionVideo = ({ detail }) => {
     const { user, authTokens } = useAuth()
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [checkSaved, setCheckSaved] = useState([])
     const { id } = useParams()
     const navigate = useNavigate()
-
+console.log(detail)
 
     const [isSeemore, setIsSeeMore] = useState(true)
     const handleOkDelete = async () => {
@@ -31,30 +30,35 @@ const DescriptionVideo = ({ detail }) => {
         }
     }
     const handleSaveVideo = async () => {
-        try {
-            const res = await axios.post(`http://localhost:8000/api/user/saved-video/${user.user_id}/`, {
-                user: user,
-                saved: detail
-            },
-                {
-                    headers: {
-                        'Authorization': `Bearer ${authTokens.access}`
+        if(user){
+            try {
+                const res = await axios.post(`http://localhost:8000/api/user/saved-video/${user.user_id}/`, {
+                    user: user,
+                    saved: detail
+                },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${authTokens.access}`
+                        }
                     }
+                )
+                if (res.status === 208) {
+                    alert('This video already exist in your saved video')
+                } else {
+                    alert('success')
                 }
-            )
-            if (res.status === 208) {
-                alert('This video already exist in your saved video')
-            } else {
-                alert('success')
+            } catch (error) {
+                alert(error)
             }
-        } catch (error) {
-            alert(error)
+        } else {
+            navigate('/login')
         }
     }
 
-    const menu = (
+    const menu =(
+        
         <Menu>
-            {user.user_id === detail?.author?.id && <Menu.Item onClick={() => setIsModalVisible(true)}>
+            {user && user.user_id === detail?.author?.id && <Menu.Item onClick={() => setIsModalVisible(true)}>
                 Delete Video
             </Menu.Item>}
             <Menu.Item onClick={handleSaveVideo}>
@@ -68,7 +72,7 @@ const DescriptionVideo = ({ detail }) => {
     return (
         <div className='description-video-container '>
             {Object.keys(detail).length > 0 && detail.genres.map((item, i) => {
-                return <Tag key={i} color="#2db7f5">{item}</Tag>
+                return <Tag key={i} color="#2db7f5">{item.genres}</Tag>
 
             })
             }
@@ -113,7 +117,7 @@ const DescriptionVideo = ({ detail }) => {
 
 
 
-                    <Dropdown trigger={['click']} overlay={menu}>
+                    <Dropdown trigger={['click']} overlay={ menu}>
                         <Button>
                             <Space>
                                 Handle

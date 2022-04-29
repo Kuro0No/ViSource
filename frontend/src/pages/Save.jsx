@@ -12,19 +12,22 @@ const Save = () => {
     const { user, authTokens } = useAuth()
     const [savedList, setSavedList] = useState([])
 
-    useEffect(() => {
-        async function getData() {
-            const res = await axios.get(`http://localhost:8000/api/user/saved-video/${user.user_id}/`, {
-                headers: {
-                    Authorization: `Bearer ${authTokens.access}`
-                }
-            })
-            setSavedList(res.data)
+     useEffect(() => {
+        if(user){
+
+            async function getData() {
+                const res = await axios.get(`http://localhost:8000/api/user/saved-video/${user?.user_id}/`, {
+                    headers: {
+                        Authorization: `Bearer ${authTokens.access}`
+                    }
+                })
+                setSavedList(res.data)
+            }
+            getData()
         }
-        getData()
     }, [])
     const handleDeleteSave = async(item,id) => {
-        const res = await axios.delete(`http://localhost:8000/api/user/saved-video/${user.user_id}/?delete=${item.saved.uuid}`, {
+        const res = await axios.delete(`http://localhost:8000/api/user/saved-video/${user?.user_id}/?delete=${item.saved.uuid}`, {
             headers: {
                 Authorization: `Bearer ${authTokens.access}`
             }

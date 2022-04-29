@@ -9,6 +9,7 @@ from .views import MyTokenObtainPairView
 urlpatterns=[
     path('', views.getRoutes),
     path('list-videos/', views.getVideos, name='list-videos'),
+    path('genres/', views.getGenres, name='genres'),
     path('list-videos/<str:pk>/', views.getVideo, name='video'),
     path('search-video/', views.getSearchVideos.as_view({'get': 'list'}), name='search-video'),
     path('list-subcriber/<str:pk>/', views.getSubcriber, name='list-subcriber'),

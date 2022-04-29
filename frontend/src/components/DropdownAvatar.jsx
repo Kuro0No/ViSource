@@ -13,24 +13,17 @@ const DropdownAvatar = () => {
     return (
         <div className='DropdownAvatar-container'>
             <Dropdown
-
-
                 trigger={['click']}
                 overlay={
                     <>
                         <Menu>
 
-                            {/* <Menu.Item eventKey='1' key={1} icon={<ProfileOutlined style={{ fontSize: 17 }} />}>
-                                <Link to='/profile'>
-                                    Profile
-                                </Link> 
-                            </Menu.Item> */}
-                            <Menu.Item eventKey='2' icon={<SettingOutlined />}>
+                            <Menu.Item  icon={<SettingOutlined />}>
                                 <Link to='/setting'>
                                     Setting
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item eventKey='3' key={2} icon={<LogoutOutlined style={{ fontSize: 17 }} />} onClick={signOut}>
+                            <Menu.Item key={2} icon={<LogoutOutlined style={{ fontSize: 17 }} />} onClick={signOut}>
                                 Sign out
                             </Menu.Item>
 

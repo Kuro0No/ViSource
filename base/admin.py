@@ -38,4 +38,8 @@ class SectorAdmin(admin.ModelAdmin):
 admin.site.register(Sector,SectorAdmin)
 
 
-admin.site.register(CategoryModel)
+class GenresAdmin(admin.ModelAdmin):
+    list_display = ['genres','id']
+    readonly_fields = ['id']
+
+admin.site.register(CategoryModel,GenresAdmin)

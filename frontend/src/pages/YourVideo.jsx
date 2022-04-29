@@ -10,22 +10,23 @@ import axios from 'axios'
 
 const YourVideo = () => {
     const { user, authTokens } = useAuth()
-    const [yourVideoListDetail, setYourVideoListDetail] = useState({})
     const [yourVideoList, setYourVideoList] = useState([])
     
 
 
     useEffect(() => {
-        async function getData() {
-            const res = await axios.get(`http://localhost:8000/api/user/your-videos/${user.user_id}/`, {
-                headers: {
-                    Authorization: `Bearer ${authTokens.access}`
-                }
-            })
-            setYourVideoListDetail(res.data)
-            setYourVideoList(res.data.results)
+        if(user){
+
+            async function getData() {
+                const res = await axios.get(`http://localhost:8000/api/user/your-videos/${user.user_id}/`, {
+                    headers: {
+                        Authorization: `Bearer ${authTokens.access}`
+                    }
+                })
+                setYourVideoList(res.data.results)
+            }
+            getData()
         }
-        getData()
     }, [])
 
 

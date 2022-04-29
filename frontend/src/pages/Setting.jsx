@@ -187,25 +187,25 @@ const Setting = () => {
                         <div className='title-option-setting col-2 col-sm-3'>Avatar</div>
                         <div className='title-option-content-ava col-sm-9 col-10'>
                             <img src={`http://localhost:8000/base/media/${userAvatar}`} alt="" />
+
+
                             <div>
+                                <input onChange={handleChangeAva} type="file" id='updateAva' hidden />
+                                <label className='button-updateAva btn btn-light' htmlFor="updateAva">
+                                    <span>Update Avatar</span>
+                                    <div className='icon-update-avatar'>
 
-                                <div>
-                                    <input onChange={handleChangeAva} type="file" id='updateAva' hidden />
-                                    <label className='button-updateAva btn btn-light' htmlFor="updateAva">
-                                        <span>Update Avatar</span>
-                                        <div className='icon-update-avatar'>
+                                        <UploadOutlined />
+                                    </div>
+                                </label>
 
-                                            <UploadOutlined />
-                                        </div>
-                                    </label>
-
-
-                                </div>
-                                <button className=' btn btn-primary' style={{ cursor: 'pointer' }} disabled={!photo} >
-                                    Confirm
-                                </button>
 
                             </div>
+                            <button className=' btn btn-primary' style={{ cursor: 'pointer' }} disabled={!photo} >
+                                Confirm
+                            </button>
+
+
                         </div>
 
                     </div>

@@ -1,4 +1,6 @@
 .menu-container {
+    border: none;
+
     .nav-side-group {
         display: flex;
         align-items: center;
@@ -11,4 +13,19 @@
             padding-right: 20px;
         }
     }
+    .ant-menu-vertical{
+        border: none;
+    }
+
+}
+
+@media screen and (max-width: 576px) {
+        .ant-layout-sider-light {
+            width: 0!important;
+            flex: 0 0 0!important; 
+            max-width: 0!important;
+            min-width: 0!important;
+        }
+    
+    
 }

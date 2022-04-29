@@ -5,8 +5,9 @@ from unicodedata import category
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from base.api.filter import SearchFilter
 from base.api.pagination import CustomPageNumberPagination, CustomPageSearchNumberPagination
-from base.api.serializers import CommentsListSerializer, RepCommentListSerializer, VideosListSerializer
+from base.api.serializers import CategorySerializer, CommentsListSerializer, RepCommentListSerializer, SearchVideoSerializer, VideosListSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import viewsets
 from base.models import  CategoryModel, ViSource,Comment,RepComment
@@ -118,6 +119,13 @@ def getVideos(request):
 
         return Response(serializers.data)
 
+
+@api_view(['GET'])
+def getGenres (request):
+    genres = CategoryModel.objects.all()
+    seri = CategorySerializer(genres, many=True)
+    return Response(seri.data)
+
 @api_view(['GET', 'DELETE'])
 def getVideo(request,pk):
     if request.method == "GET":
@@ -212,12 +220,22 @@ def getWatchedVideo(request,pk):
 class getSearchVideos(viewsets.ModelViewSet):
     queryset = ViSource.objects.all().order_by('-created')
     pagination_class = CustomPageSearchNumberPagination #dùng pagination với Class
-    serializer_class = VideosListSerializer
+    serializer_class = SearchVideoSerializer
     filter_backends = [DjangoFilterBackend,filters.SearchFilter,] #filters.BaseFilterBackend, filters.OrderingFilter,
     ordering = ('-created',)
-    filter_fields = ('genres',)
-    search_fields = ('title',)
+    filter_fields = ['genres',]
+    search_fields = ['title','author__name']
+    
+
+    def get_queryset(self):
+              
+        return super().get_queryset()
+
    
+
+
+
+
 
     
 

@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import LeftSide from './components/LeftSide';
@@ -19,8 +19,8 @@ function App() {
   const { Sider, Content } = Layout
   const { user } = useAuth()
   const [SearchList, setSearchList] = useState([])
-  const [collapsed,setCollapsed] = useState(false)
-  const [width,setWidth] = useState(window.innerWidth)
+  const [collapsed, setCollapsed] = useState(false)
+  const [width, setWidth] = useState(window.innerWidth)
 
 
   const onSearchHandle = useCallback((data) => {
@@ -28,23 +28,26 @@ function App() {
   }, [])
 
   useEffect(() => {
-     window.addEventListener('resize', () => {
+    window.addEventListener('resize', () => {
       setWidth(window.innerWidth)
     })
-  },[])
+  }, [])
   useEffect(() => {
-    width >= 735 ? setCollapsed(false) : setCollapsed(true) 
-  })
+    if (width >= 735) setCollapsed(false)
+    else if (576 < width < 735) setCollapsed(true)
+
+
+
+  }, [width])
+
   return (
     <div className="App">
       <Header onSearchHandle={onSearchHandle} />
       <Layout>
 
-        <Sider  collapsed={collapsed} theme='light'>
-          <LeftSide />
+        <Sider collapsed={collapsed} theme='light'>
+          <LeftSide collapsed={collapsed} />
         </Sider>
-
-
 
         <Content>
 

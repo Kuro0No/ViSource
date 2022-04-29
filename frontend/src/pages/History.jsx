@@ -15,9 +15,7 @@ const History = () => {
                     <div >
                         <HistoryOutlined  style={{ fontSize: 100 }} />
                         <h5>You need to Login to see your watched video</h5>
-                        <Link type='button' className='btn btn-outline-primary'  to='/login' danger >
-                            Login
-                        </Link>
+                        
                     </div>
                 </div>
                 :

@@ -1,8 +1,9 @@
 .history-bef-loggin {
     margin: auto;
     position: absolute;
-    left: 30%;
-    top: 20%;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%,-100%);
 
     .anticon-history {
         display: flex;

@@ -27,7 +27,9 @@ from django import forms
 class CategoryModel(models.Model):
     genres = models.CharField( null=True, max_length=50)
     def __str__(self):
-        return f"{self.genres} "
+        return f"{self.genres}, {self.id} "
+    
+  
 
 
 class ViSource(models.Model):

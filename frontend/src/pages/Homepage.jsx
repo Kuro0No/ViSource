@@ -9,15 +9,10 @@ import ContentHome from '../components/ContentHome';
 const HomePage = () => {
     const { Sider } = Layout;
 
-
-
-
     return (
 
-        <Layout>
-            {/* <Sider theme='light'>
-                <LeftSide />
-            </Sider> */}
+        <Layout >
+
             <ContentHome />
 
         </Layout>
