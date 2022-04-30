@@ -27,11 +27,33 @@ const Setting = () => {
     const [loading, setLoading] = useState(false)
     // photoUrl
     const [photo, setPhoto] = useState(null)
+    const [fileAvatar, setFileAvatar] = useState(null)
+    const [title] = useState('ádasd')
+    const [body] = useState('ádsadasdasd')
     const handleChangeAva = (e) => {
-        // const file = e.target.files[0]
-        // file.preview = URL.createObjectURL(file)
-        // setUserAvatar(file)
-        console.log(e.target.files[0])
+        const file = e.target.files[0]
+        file.preview = URL.createObjectURL(file)
+        setUserAvatar(file)
+        setFileAvatar(file)
+        console.log(file)
+
+
+    }
+    const handleSaveAvatar = async () => {
+ 
+        let fileData = new FormData()
+        fileData.append('image', fileAvatar);
+        fileData.append('title', title);
+        fileData.append('body', body);
+
+        const res = await axios.put(`http://localhost:8000/api/user/update_avatar/${user.user_id}/`, {
+            avatar: fileData
+        }, {
+            headers: {
+                Authorization: `Bearer ${String(authTokens.access)}`,
+                'Content-Type': 'multipart/form-data; boundary=something'
+            }
+        })
 
     }
 
@@ -186,7 +208,7 @@ const Setting = () => {
                     <div className='setting-group-child' >
                         <div className='title-option-setting col-2 col-sm-3'>Avatar</div>
                         <div className='title-option-content-ava col-sm-9 col-10'>
-                            <img src={`http://localhost:8000/base/media/${userAvatar}`} alt="" />
+                            <img src={userAvatar.preview || `http://localhost:8000/base/media/${userAvatar} `} alt="" />
 
 
                             <div>
@@ -201,7 +223,7 @@ const Setting = () => {
 
 
                             </div>
-                            <button className=' btn btn-primary' style={{ cursor: 'pointer' }} disabled={!photo} >
+                            <button onClick={handleSaveAvatar} className=' btn btn-primary' style={{ cursor: 'pointer' }} >
                                 Confirm
                             </button>
 

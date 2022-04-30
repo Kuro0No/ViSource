@@ -35,7 +35,7 @@ const DropdownAvatar = () => {
             >
                 < Avatar
                     style={{ alignSelf: 'center' }}
-                    size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80 }}
+                    size={'large'}
                     src={`http://localhost:8000/base/media/${user.avatar}`}
                 />
             </Dropdown>

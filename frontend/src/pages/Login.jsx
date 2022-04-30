@@ -3,6 +3,7 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import '../style/Login.scss'
 import { useAuth } from '../hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const {loginUser,user} = useAuth()
@@ -36,16 +37,16 @@ const Login = () => {
                         <Checkbox>Remember me</Checkbox>
                     </Form.Item>
 
-                    <a className="login-form-forgot" href="">
+                    {/* <Link className="login-form-forgot" to='/forgot'>
                         Forgot password
-                    </a>
+                    </Link> */}
                 </Form.Item>
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                    Or <a href="">register now!</a>
+                    <label style={{paddingLeft: '5px'}}>Or</label> <Link to='/register'>Register now!</Link>
                 </Form.Item>
             </Form>
         </div>

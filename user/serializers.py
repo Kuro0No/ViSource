@@ -118,6 +118,7 @@ class UpdateAvatarUserSerializer(serializersCore.ModelSerializer):
         if validated_data:
             instance.save()    
         return instance
+        
 
 
 class SavedVideoSerializer(ModelSerializer):

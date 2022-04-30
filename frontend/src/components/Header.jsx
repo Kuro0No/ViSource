@@ -21,7 +21,7 @@ const Header = ({ onSearchHandle }) => {
       onSearchHandle(res.data)
 
       navi(`search/?search=${search}`)
-      
+
     }
   }
 
@@ -30,12 +30,15 @@ const Header = ({ onSearchHandle }) => {
   return (
     <Header className='header-container'>
 
-      <Search placeholder="input search text" value={search} onChange={(e) => setSearch(e.target.value)} onSearch={onSearch} enterButton >
 
-      </Search>
+
+
       <ul>
         <li>
-          <Link to='/'>Header</Link>
+          <Link to='/'>Home</Link>
+        </li>
+        <li style={{display:'flex', alignItems:'center'}}>
+          <Search placeholder="input search text" value={search} onChange={(e) => setSearch(e.target.value)} onSearch={onSearch}  />
         </li>
         {!user && <li>
           <Link to='/register'>Register</Link>

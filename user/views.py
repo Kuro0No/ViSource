@@ -13,6 +13,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
 from rest_framework.decorators import api_view,permission_classes,authentication_classes
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser
 
 
 
@@ -67,6 +68,7 @@ class UpdateNameProfileView(generics.UpdateAPIView):
 class UpdateAvatarProfileView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [JWTAuthentication]
+    parse_classes = [MultiPartParser, ]
 
     queryset = User.objects.all()
     serializer_class = UpdateAvatarUserSerializer

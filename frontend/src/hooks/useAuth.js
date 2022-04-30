@@ -11,8 +11,11 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = useState(() => localStorage.getItem('authTokens') ?jwt_decode( localStorage.getItem('authTokens')) : null)
-    const [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
+    const [user, setUser] = useState(() => { return localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null })
+    const [authTokens, setAuthTokens] = useState(() => {
+        console.log(1)
+        return localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null
+    })
     const navigate = useNavigate()
 
     const register = async (e) => {
@@ -73,7 +76,7 @@ export const AuthProvider = ({ children }) => {
             alert('smt wrong')
         }
     }
-    
+
 
     const signOut = () => {
         try {
