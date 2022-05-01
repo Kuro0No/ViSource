@@ -12,18 +12,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.ant-row{
-  margin: 0!important;
+
+.ant-row {
+  margin: 0 !important;
 }
-.App{
+
+.App {
   padding: 0 20px;
 }
-li{
+
+li {
   list-style: none;
 }
+
 * {
   scroll-behavior: smooth;
 }
-.ant-layout{
-  background: #fff!important;
+
+.ant-layout {
+  background: #fff !important;
+}
+
+.sidebar-container-active {
+  position: sticky;
+  z-index: 20;
+  
 }

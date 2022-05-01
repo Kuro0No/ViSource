@@ -1,0 +1,26 @@
+.videoDetail-container {
+    div{
+       video{
+           object-fit: unset;
+       }
+    }
+}
+
+
+
+@media screen and(min-width: 992px) {
+    .videoDetail-container {
+        div{
+            height: 550px!important;
+        }
+    }
+}
+
+
+@media screen and(max-width: 992px) {
+    .videoDetail-container {
+        div{
+            height: fit-content!important;
+        }
+    }
+}

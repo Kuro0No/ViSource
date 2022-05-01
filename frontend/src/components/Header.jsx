@@ -6,12 +6,13 @@ import { useAuth } from '../hooks/useAuth';
 import DropdownAvatar from './DropdownAvatar';
 import { Input, } from 'antd';
 import axios from 'axios';
+import { MenuOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 
-const Header = ({ onSearchHandle }) => {
+const Header = ({ onSearchHandle ,onClickMenu}) => {
   const { Header } = Layout;
-  const { user, signOut } = useAuth()
+  const { user } = useAuth()
   const navi = useNavigate()
   const [search, setSearch] = useState(null)
 
@@ -25,20 +26,20 @@ const Header = ({ onSearchHandle }) => {
     }
   }
 
+ 
+
 
 
   return (
-    <Header className='header-container'>
-
-
-
-
+    <Header style={{padding: 0}} className='header-container'>
+     
       <ul>
+        <li className='menu-header' onClick={onClickMenu}><MenuOutlined /></li>
         <li>
           <Link to='/'>Home</Link>
         </li>
-        <li style={{display:'flex', alignItems:'center'}}>
-          <Search placeholder="input search text" value={search} onChange={(e) => setSearch(e.target.value)} onSearch={onSearch}  />
+        <li style={{ display: 'flex', alignItems: 'center' }}>
+          <Search placeholder="input search text" value={search} onChange={(e) => setSearch(e.target.value)} onSearch={onSearch} />
         </li>
         {!user && <li>
           <Link to='/register'>Register</Link>

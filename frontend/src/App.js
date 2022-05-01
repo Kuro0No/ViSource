@@ -13,6 +13,7 @@ import Save from './pages/Save';
 import Search from './pages/Search';
 import Setting from './pages/Setting';
 import YourVideo from './pages/YourVideo';
+import './index.css'
 
 
 function App() {
@@ -21,6 +22,11 @@ function App() {
   const [SearchList, setSearchList] = useState([])
   const [collapsed, setCollapsed] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)
+  const location = useLocation()
+  const [activeMenu, setActiveMenu] = useState(false)
+
+
+
 
 
   const onSearchHandle = useCallback((data) => {
@@ -40,14 +46,25 @@ function App() {
 
   }, [width])
 
+  const onClickMenu = useCallback(() => {
+    setCollapsed(false)
+
+  }, [])
+
   return (
     <div className="App">
-      <Header onSearchHandle={onSearchHandle} />
+      <Header onSearchHandle={onSearchHandle} onClickMenu={onClickMenu} />
       <Layout>
 
-        <Sider collapsed={collapsed} theme='light'>
+
+        <Sider
+          className='sidebar-container-active'
+          // collapsedWidth={((width || window.innerWidth) < 576 ? 0 : 80)}
+          collapsed={collapsed}
+          theme='light'>
           <LeftSide collapsed={collapsed} />
         </Sider>
+
 
         <Content>
 

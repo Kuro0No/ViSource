@@ -5,7 +5,6 @@ import moment from 'moment'
 
 const Music = ({ listMusic }) => {
   const {Meta} = Card
-  console.log(listMusic)
 
 
   return (

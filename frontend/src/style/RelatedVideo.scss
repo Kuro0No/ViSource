@@ -17,9 +17,37 @@
                 margin: 0 !important;
             }
         }
-        .ant-card-cover{
-            width: 50%;
+        
+    }
+    .ant-card-cover{
+        img{
+            object-fit: fill;
+            height: 100%;
         }
     }
 
+}
+
+
+
+@media screen and (min-width: 992px) {
+    .related-container {
+       
+            .ant-card-cover{
+                width: 50%;
+            }
+        
+    
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .related-container {
+       
+            .ant-card-cover{
+                width: 150px;
+            }
+        
+    
+    }
 }

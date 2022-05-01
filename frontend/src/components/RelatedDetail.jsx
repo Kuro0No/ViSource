@@ -7,7 +7,7 @@ import moment from 'moment';
 
 const { Meta } = Card;
 
-const RelatedDetail = ({ detail }) => {
+const RelatedDetail = ({ detail,currentLoad }) => {
 
     const [relatedVideo, setRelatedVideo] = useState([])
     const [loading, setLoading] = useState(false)
@@ -16,7 +16,7 @@ const RelatedDetail = ({ detail }) => {
     useEffect(() => {
         async function getData() {
             setLoading(true)
-            const res = await axios.get(`http://localhost:8000/api/get-related/${id}/`)
+            const res = await axios.get(`http://localhost:8000/api/get-related/${id}/?page=${currentLoad}`)
             setRelatedVideo(res.data.results)
             setLoading(false)
         }
