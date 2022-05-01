@@ -7,8 +7,8 @@ from base.models import Sector, ViSource,Comment,RepComment, CategoryModel
 
 class VideoAdmin(admin.ModelAdmin):
     list_display = ('title','author','created','uuid', )
-    list_filter = ['title']
-    list_search = ['title']
+    list_filter = ('title','genres')
+    list_search = ('title','genres')
     readonly_fields = ['uuid']
 
 

@@ -1,7 +1,4 @@
-from ast import Return
-from os import access
-import re
-from unicodedata import category
+from urllib import request
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -16,6 +13,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from user.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import generics
+from collections import OrderedDict
 
 
 
@@ -227,12 +226,37 @@ class getSearchVideos(viewsets.ModelViewSet):
     search_fields = ['title','author__name']
     
 
-    def get_queryset(self):
-              
-        return super().get_queryset()
-
    
 
+   
+class getRelatedVideos(generics.ListAPIView):
+    pagination_class = CustomPageSearchNumberPagination #dùng pagination với Class
+    serializer_class = SearchVideoSerializer
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter,] #filters.BaseFilterBackend, filters.OrderingFilter,
+    ordering = ('-created',)
+    filter_fields = ['genres',]
+    search_fields = ['title','author__name']
+    
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        data = ViSource.objects.get(uuid=pk)
+        serializer = VideosListSerializer(data)
+        genres = serializer.data['genres']
+
+        list_genres = []
+        for genre in genres:
+            # if genre  not in list_genres:
+            genre = genre['id']
+            list_genres.append(genre)
+
+     
+        
+            
+        return ViSource.objects.filter(genres__in=list_genres).order_by('-created').exclude(uuid=pk).distinct()
+
+    
+
+   
 
 
 

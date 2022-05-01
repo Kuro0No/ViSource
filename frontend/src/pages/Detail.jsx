@@ -8,6 +8,7 @@ import { Input } from 'antd';
 import { Avatar } from 'antd';
 import { useAuth } from '../hooks/useAuth';
 import DescriptionVideo from '../components/DescriptionVideo';
+import RelatedDetail from '../components/RelatedDetail';
 
 
 const { TextArea } = Input;
@@ -74,7 +75,7 @@ const Detail = () => {
     return (
         <div>
             <Row>
-                <Col span={18}>
+                <Col style={{paddingRight: 20}} span={18}>
                     <ReactPlayer height={'550px'} controls width={'100%'} url={`http://localhost:8000${detail?.video}`} />
                     <DescriptionVideo detail={detail} />
                     <Col className='d-flex'>
@@ -96,7 +97,9 @@ const Detail = () => {
                     </Col>
                     <Comments loadSendCmt={loadSendCmt} onhandleSubmitCmt={handleSubmitCmt} setCmtList={setCmtList} cmtList={cmtList} detail={detail} />
                 </Col>
-                <Col span={6}>col</Col>
+                <Col span={6}>
+                    <RelatedDetail detail={detail} />
+                </Col>
             </Row>
         </div>
     )

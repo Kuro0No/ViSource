@@ -17,7 +17,6 @@ const DescriptionVideo = ({ detail }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const { id } = useParams()
     const navigate = useNavigate()
-console.log(detail)
 
     const [isSeemore, setIsSeeMore] = useState(true)
     const handleOkDelete = async () => {

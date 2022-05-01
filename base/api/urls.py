@@ -5,9 +5,15 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from .views import MyTokenObtainPairView
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+# router.register('get-related/<str:pk>/', views.getRelatedVideos)
 
 urlpatterns=[
+    path('', include(router.urls)),
     path('', views.getRoutes),
+    path('get-related/<str:pk>/', views.getRelatedVideos.as_view(), name='get-related'),
     path('list-videos/', views.getVideos, name='list-videos'),
     path('genres/', views.getGenres, name='genres'),
     path('list-videos/<str:pk>/', views.getVideo, name='video'),
