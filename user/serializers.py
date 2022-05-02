@@ -110,17 +110,15 @@ class UpdateAvatarUserSerializer(serializersCore.ModelSerializer):
         model = User
         fields = ['avatar']
 
-    def update(self, instance, validated_data):
-        user = self.context['request'].user
-        if user.id != instance.pk:
-            raise serializersCore.ValidationError({"authorize": "You dont have permission for this user."})
-        # instance.avatar = validated_data['avatar']  
-        print(validated_data)
-        
-
-        # if validated_data:
-        #     instance.save()    
-        return instance
+    # def update(self, instance, validated_data):
+    #     user = self.context['request'].user
+    #     if user.id != instance.pk:
+    #         raise serializersCore.ValidationError({"authorize": "You dont have permission for this user."})
+    #     instance.avatar = validated_data['avatar']  
+    #     print(validated_data)
+    #     if validated_data:
+    #         instance.save()    
+    #     return instance
         
 
 

@@ -82,9 +82,9 @@ const DescriptionVideo = ({ detail }) => {
             <p style={{ color: '#606060' }}>{moment(detail?.created).subtract(10, 'days').calendar()}</p>
 
             <Row>
-                <Col span={18}>
+                <Col xs={15} span={18}>
                     <Card
-                        style={{ paddingTop: 20 }}
+                        // style={{ paddingTop: 20 }}
                         bordered={false}
                         className='description-detail '
                     >
@@ -105,7 +105,7 @@ const DescriptionVideo = ({ detail }) => {
                         <h6 onClick={() => setIsSeeMore(!isSeemore)} >{isSeemore ? 'See More' : 'See Less'}</h6>
                     </Card>
                 </Col>
-                <Col style={{ textAlign: 'right' }} span={6}>
+                <Col style={{ textAlign: 'right' }} xs={9} span={6}>
                     {user && user.user_id == detail?.author?.id &&
                         <Modal title="You are trying to delete this video." visible={isModalVisible} onOk={handleOkDelete} onCancel={() => setIsModalVisible(false)}>
                             <>

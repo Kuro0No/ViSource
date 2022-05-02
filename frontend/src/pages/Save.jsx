@@ -21,6 +21,7 @@ const Save = () => {
                         Authorization: `Bearer ${authTokens.access}`
                     }
                 })
+                
                 setSavedList(res.data)
             }
             getData()
@@ -40,6 +41,7 @@ const Save = () => {
 
     return (
         <div className='save-container'>
+            {user && savedList.length ===0 && <h5>Empty Video</h5>}
             {!user ?
                 <div className='save-bef-loggin'>
 

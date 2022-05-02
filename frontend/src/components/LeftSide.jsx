@@ -32,13 +32,13 @@ const LeftSide = ({ collapsed }) => {
                         <span>Saved</span>
                     </Link>
                 </Menu.Item>
-                <Menu.Item icon={collapsed && <HistoryOutlined />} key={3} >
+                {/* <Menu.Item icon={collapsed && <HistoryOutlined />} key={3} > */}
 
-                    <Link to='/history' className='nav-side-group'>
+                    {/* <Link to='/history' className='nav-side-group'>
                         {!collapsed && <HistoryOutlined title='Your videos' />}
                         <span>Video watched</span>
-                    </Link>
-                </Menu.Item>
+                    </Link> */}
+                {/* </Menu.Item> */}
 
                 <Menu.Item icon={collapsed && <PlaySquareOutlined />} key={4}>
 

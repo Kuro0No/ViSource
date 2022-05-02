@@ -34,13 +34,25 @@ li {
 }
 
 .sidebar-container-active {
-  position: fixed!important;
+  position: fixed !important;
   z-index: 20;
   height: 100%;
-  flex: 0 0 200px!important;
-  max-width: 200px!important;
-  min-width: 200px!important;
-  width: 200px!important;
+  flex: 0 0 200px !important;
+  max-width: 200px !important;
+  min-width: 200px !important;
+  width: 200px !important;
+  margin-top: -20px;
 }
 
+@media screen and (min-width:435px) {
+  .App {
+    padding: 0 20px;
+  }
+}
 
+@media screen and (max-width:435px) {
+  .App {
+    padding: 0 10px;
+  }
+  
+}

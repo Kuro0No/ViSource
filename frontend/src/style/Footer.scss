@@ -1,0 +1,18 @@
+.site-page-header-ghost-wrapper {
+    padding: 24px;
+    background-color: #f5f5f5;
+  }
+
+// .ant-page-header-content{
+//     .ant-descriptions-item{
+//         display: block;
+//     }
+// }
+
+@media screen and (max-width: 420px) {
+    .ant-page-header-content{
+    .ant-descriptions-item{
+        display: block;
+    }
+}
+}

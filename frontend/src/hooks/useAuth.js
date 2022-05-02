@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import jwt_decode from "jwt-decode";
 
 const AuthContext = createContext()
@@ -16,6 +16,8 @@ export const AuthProvider = ({ children }) => {
         return localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null
     })
     const navigate = useNavigate()
+    const [avatar, setAvatar] = useState(null)
+
 
     const register = async (e) => {
 
@@ -44,8 +46,9 @@ export const AuthProvider = ({ children }) => {
                 .then((res) => {
                     setAuthTokens(res.data)
                     setUser(jwt_decode(res.data.access))
+                    setAvatar(jwt_decode(res.data.access).avatar)
                     localStorage.setItem('authTokens', JSON.stringify(res.data));
-                    localStorage.setItem('refresh_token', res.data.refresh);
+                    // localStorage.setItem('refresh_token', res.data.refresh);
                     axios.defaults.headers['Authorization'] =
                         'Bearer ' + localStorage.getItem('authTokens');
                     navigate('/');
@@ -55,7 +58,6 @@ export const AuthProvider = ({ children }) => {
             alert('smt wrong')
         }
     }
-
 
     const signOut = () => {
         try {
@@ -68,14 +70,37 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    useEffect(() => {
+        if (user) {
+
+            async function getAva() {
+                const res = await axios.get(`http://localhost:8000/api/user/profile/${user.user_id}/`, {
+                    headers: {
+                        Authorization: `Bearer ${String(authTokens.access)}`,
+                       
+                    }
+                })
+                setAvatar(res.data.avatar.slice(12))
+            }
+            getAva()
+        }
+    }, [user])
+
+
+
+
     const value = {
         register,
         loginUser,
         user,
         authTokens,
         signOut,
+        avatar,
+        setAvatar,
 
     }
+
+
     return (
         <AuthContext.Provider value={value}>
             {children}

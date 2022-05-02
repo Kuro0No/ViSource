@@ -15,6 +15,7 @@ import Setting from './pages/Setting';
 import YourVideo from './pages/YourVideo';
 import './index.css'
 import UseClickOutSide from './hooks/UseClickOutSide';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
       setCollapsed(true)
       setopenMenu(false)
     }
-    
+
   })
 
 
@@ -103,6 +104,7 @@ function App() {
           </Routes>
         </Content>
       </Layout>
+      <Footer />
     </div >
   );
 }

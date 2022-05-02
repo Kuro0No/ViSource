@@ -1,4 +1,5 @@
 import re
+from urllib.request import Request
 from base.models import ViSource
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -7,13 +8,15 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from user.models import  SavedVideoModel, User
 from user.pagination import CustomYourVideoPageNumberPagination
-from .serializers import ChangePasswordSerializer, RegisterUserSerializer, SavedVideoSerializer, UpdateNameUserSerializer,UpdateAvatarUserSerializer, YourVideoSerializer  
+from .serializers import ChangePasswordSerializer, RegisterUserSerializer, SavedVideoSerializer, UpdateNameUserSerializer,UpdateAvatarUserSerializer, UserSerializer, YourVideoSerializer  
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
 from rest_framework.decorators import api_view,permission_classes,authentication_classes
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser
+from django.core.exceptions import ValidationError
+
 
 
 
@@ -49,10 +52,22 @@ class BlacklistTokenUpdateView(APIView):
 class ChangePasswordView(generics.UpdateAPIView):
     # permission_classes = (IsAuthenticated,)
     authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     queryset = User.objects.all()
     serializer_class = ChangePasswordSerializer
+
+
+class ProfileModels(generics.RetrieveAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    
+    serializer_class = ChangePasswordSerializer
+
+    def get(self, request,pk ,*args, **kwargs):
+        return Response(UserSerializer(User.objects.get(id=pk)).data)
+
     
     
 
@@ -72,6 +87,20 @@ class UpdateAvatarProfileView(generics.UpdateAPIView):
 
     queryset = User.objects.all()
     serializer_class = UpdateAvatarUserSerializer
+
+    
+
+    def update(self, request, pk ):
+        user = request.user
+        print(request.data)
+      
+        if user.id != pk:
+            raise ValidationError({"authorize": "You dont have permission for this user."})
+        user.avatar = request.data['avatar']  
+        if request.data['avatar']:
+            user.save()    
+    
+        return Response(UpdateAvatarUserSerializer(User.objects.get(id=pk)).data)
 
 @api_view(['GET','POST',"DELETE"])
 @permission_classes([IsAuthenticated])

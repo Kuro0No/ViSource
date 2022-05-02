@@ -9,7 +9,7 @@ import axios from 'axios';
 
 
 const Setting = () => {
-    const { user, authTokens } = useAuth()
+    const { user, authTokens ,setAvatar} = useAuth()
     const [username, setUsername] = useState(user.name)
     const [active, setActive] = useState(-1)
     const [userAvatar, setUserAvatar] = useState(user.avatar)
@@ -28,36 +28,36 @@ const Setting = () => {
     // photoUrl
     const [photo, setPhoto] = useState(null)
     const [fileAvatar, setFileAvatar] = useState(null)
-    const [title] = useState('ádasd')
-    const [body] = useState('ádsadasdasd')
     const handleChangeAva = (e) => {
         const file = e.target.files[0]
         file.preview = URL.createObjectURL(file)
         setUserAvatar(file)
         setFileAvatar(file)
-
-
     }
-    console.log(fileAvatar)
 
     const handleSaveAvatar = async () => {
-        console.log(fileAvatar)
 
-        let fileData = new FormData()
-        fileData.append('image', fileAvatar);
-        // fileData.append('title', title);
-        // fileData.append('body', body);
+        let form_data = new FormData();
+        form_data.append('avatar', fileAvatar, fileAvatar.name);
 
-        const res = await axios.put(`http://localhost:8000/api/user/update_avatar/${user.user_id}/`, {
-            // avatar: fileData
-            hello: '1'
-        }, {
-            headers: {
-                Authorization: `Bearer ${String(authTokens.access)}`,
-                'Content-Type': 'multipart/form-data; boundary=something'
-            }
-        })
-        console.log(res)
+
+
+        try {
+            const res = await axios.put(`http://localhost:8000/api/user/update_avatar/${user.user_id}/`, form_data, {
+                headers: {
+                    Authorization: `Bearer ${String(authTokens.access)}`,
+                    'Content-Type': 'multipart/form-data;boundary=----dfasdadsadq3qw--' //; boundary=something
+                }
+            })
+            setUserAvatar(res.data.avatar)
+            
+            setAvatar(res.data.avatar.slice(12))
+            alert('Success')
+
+        }catch(error){
+            alert(error)
+        }
+    
 
     }
 
@@ -71,10 +71,22 @@ const Setting = () => {
         }
     }, [userAvatar])
 
+    useEffect(() => {
+        async function getAvatar() {
+            const res = await axios.get(`http://localhost:8000/api/user/profile/${user.user_id}/`, {
+                headers: {
+                    Authorization: `Bearer ${authTokens.access}`
+                }
+            })
+            setUserAvatar(res.data.avatar)
+        }
+        getAvatar()
+    }, [])
+
     const onFinish = async () => {
         try {
             setLoading(true)
-            axios.put(`http://localhost:8000/api/user/update_name/${user.user_id}/`, {
+            const res = await axios.put(`http://localhost:8000/api/user/update_name/${user.user_id}/`, {
                 name: username,
                 password: passwordValue
             }, {
@@ -82,6 +94,7 @@ const Setting = () => {
                     Authorization: `Bearer ${String(authTokens.access)}`
                 }
             })
+            console.log(res)
             setLoading(false)
             alert('success')
         } catch (error) {
@@ -142,9 +155,10 @@ const Setting = () => {
                                     name="username"
                                     rules={[{ required: true, message: 'Please input your Username!' }]}
                                     valuePropName
+                                    initialValue={username}
 
                                 >
-                                    <Input onChange={(e) => setUsername(e.target.value)} defaultValue={username} value={username} prefix={<UserOutlined className="site-form-item-icon" />} />
+                                    <Input onChange={(e) => setUsername(e.target.value)}  value={username} prefix={<UserOutlined className="site-form-item-icon" />} />
                                 </Form.Item>
                             </div>
                             <Form.Item
@@ -212,7 +226,7 @@ const Setting = () => {
                     <div className='setting-group-child' >
                         <div className='title-option-setting col-2 col-sm-3'>Avatar</div>
                         <div className='title-option-content-ava col-sm-9 col-10'>
-                            <img src={userAvatar.preview || `http://localhost:8000/base/media/${userAvatar} `} alt="" />
+                            <img src={userAvatar.preview || `http://localhost:8000${userAvatar} `} alt="" />
 
 
                             <div>

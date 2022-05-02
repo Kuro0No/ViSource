@@ -12,7 +12,7 @@ const { Search } = Input;
 
 const Header = ({ onSearchHandle ,onClickMenu,openMenu}) => {
   const { Header } = Layout;
-  const { user } = useAuth()
+  const { user,avatar } = useAuth()
   const navi = useNavigate()
   const [search, setSearch] = useState(null)
 
@@ -51,7 +51,7 @@ const Header = ({ onSearchHandle ,onClickMenu,openMenu}) => {
 
         {user &&
           <li className='user-header'>
-            <DropdownAvatar />
+            <DropdownAvatar avatar={avatar}/>
           </li>}
 
       </ul>

@@ -6,7 +6,7 @@ import { DownOutlined, LogoutOutlined, ProfileOutlined, SettingOutlined } from '
 import { useAuth } from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
 
-const DropdownAvatar = () => {
+const DropdownAvatar = ({avatar}) => {
     const { user, signOut } = useAuth()
 
 
@@ -17,8 +17,7 @@ const DropdownAvatar = () => {
                 overlay={
                     <>
                         <Menu>
-
-                            <Menu.Item  icon={<SettingOutlined />}>
+                            <Menu.Item key={1}  icon={<SettingOutlined />}>
                                 <Link to='/setting'>
                                     Setting
                                 </Link>
@@ -26,9 +25,7 @@ const DropdownAvatar = () => {
                             <Menu.Item key={2} icon={<LogoutOutlined style={{ fontSize: 17 }} />} onClick={signOut}>
                                 Sign out
                             </Menu.Item>
-
                         </Menu>
-
                     </>
                 }
 
@@ -36,7 +33,7 @@ const DropdownAvatar = () => {
                 < Avatar
                     style={{ alignSelf: 'center' }}
                     size={'large'}
-                    src={`http://localhost:8000/base/media/${user.avatar}`}
+                    src={`http://localhost:8000/base/media/${avatar}`}
                 />
             </Dropdown>
 

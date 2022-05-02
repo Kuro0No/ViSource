@@ -19,7 +19,7 @@ const Detail = () => {
     const navigate = useNavigate()
     const [cmt, setCmt] = useState(null)
     const [loadSendCmt, setLoadSendCmt] = useState(false)
-    const { user } = useAuth()
+    const { user,avatar } = useAuth()
     const [cmtList, setCmtList] = useState([])
     const [width, setWidth] = useState()
     const [currentLoad, setCurrentLoad] = useState(1)
@@ -86,14 +86,14 @@ const Detail = () => {
                 <Col xs={24} sm={24} lg={18} className='col-left'  span={18}>
                     <div className='videoDetail-container'>
 
-                        <ReactPlayer  controls width={'100%'} url={`http://localhost:8000${detail?.video}`} />
+                        <ReactPlayer controls width={'100%'} url={`http://localhost:8000${detail?.video}`} />
                     </div>
                     <DescriptionVideo detail={detail} />
 
                     {(width || window.innerWidth) > 992 &&
                         <div>
                             < Col className='d-flex'>
-                                <Avatar className='me-3' src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwbGozsS9QP10p16rZiCrQD0koXVkI4c7LwUHab9dkmFRcN0VqCkB37f2y0EnySItwykg&usqp=CAU`} />
+                                <Avatar className='me-3' src={`${user ? `http://localhost:8000/base/media/${avatar}` : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwbGozsS9QP10p16rZiCrQD0koXVkI4c7LwUHab9dkmFRcN0VqCkB37f2y0EnySItwykg&usqp=CAU`} `} />
 
                                 <div style={{ width: '100%' }}>
                                     <TextArea
@@ -121,7 +121,7 @@ const Detail = () => {
                 {(window.innerWidth || width) <= 992 &&
                     <div style={{ width: '100%' }}>
                         < Col span={24} className='d-flex'>
-                            <Avatar className='me-3' src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwbGozsS9QP10p16rZiCrQD0koXVkI4c7LwUHab9dkmFRcN0VqCkB37f2y0EnySItwykg&usqp=CAU`} />
+                            <Avatar className='me-3' src={`${user ? `http://localhost:8000/base/media/${avatar}` : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwbGozsS9QP10p16rZiCrQD0koXVkI4c7LwUHab9dkmFRcN0VqCkB37f2y0EnySItwykg&usqp=CAU`} `} />
 
                             <div style={{ width: '100%' }}>
                                 <TextArea

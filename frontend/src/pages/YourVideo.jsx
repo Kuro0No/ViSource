@@ -32,6 +32,8 @@ const YourVideo = () => {
 
     return (
         <div className='yours-container'>
+            {user && yourVideoList.length ===0 && <h5>Empty Video</h5>}
+
             {!user ?
                 <div className='yours-bef-loggin'>
 
