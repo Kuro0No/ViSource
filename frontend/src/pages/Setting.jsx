@@ -35,25 +35,29 @@ const Setting = () => {
         file.preview = URL.createObjectURL(file)
         setUserAvatar(file)
         setFileAvatar(file)
-        console.log(file)
 
 
     }
+    console.log(fileAvatar)
+
     const handleSaveAvatar = async () => {
- 
+        console.log(fileAvatar)
+
         let fileData = new FormData()
         fileData.append('image', fileAvatar);
-        fileData.append('title', title);
-        fileData.append('body', body);
+        // fileData.append('title', title);
+        // fileData.append('body', body);
 
         const res = await axios.put(`http://localhost:8000/api/user/update_avatar/${user.user_id}/`, {
-            avatar: fileData
+            // avatar: fileData
+            hello: '1'
         }, {
             headers: {
                 Authorization: `Bearer ${String(authTokens.access)}`,
                 'Content-Type': 'multipart/form-data; boundary=something'
             }
         })
+        console.log(res)
 
     }
 

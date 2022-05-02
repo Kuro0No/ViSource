@@ -81,9 +81,9 @@ const Detail = () => {
 
 
     return (
-        <div>
+        <div className='detail-container'>
             <Row>
-                <Col xs={24} sm={24} lg={18} style={{ paddingRight: 20 }} span={18}>
+                <Col xs={24} sm={24} lg={18} className='col-left'  span={18}>
                     <div className='videoDetail-container'>
 
                         <ReactPlayer  controls width={'100%'} url={`http://localhost:8000${detail?.video}`} />

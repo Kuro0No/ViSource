@@ -34,26 +34,6 @@ export const AuthProvider = ({ children }) => {
     }
     const loginUser = (e) => {
 
-        // try {
-        //     const res = await axios.post('http://localhost:8000/api/token/',
-        //         {
-        //             email: e.email,
-        //             password: e.password,
-        //         },
-        //         {
-        //             headers: {
-        //                 Authorization: 'Bearer ' + varToken
-        //             }
-        //         }
-        //     )
-        //     setAuthTokens(res.data)
-        //     setUser(jwt_decode(res.data.access))
-        //     localStorage.setItem('authTokens', JSON.stringify(res.data))
-        //     navigate('/')
-        // } catch {
-        //     alert('smt wrong')
-        // }
-
         try {
 
             axios

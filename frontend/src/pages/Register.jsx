@@ -2,10 +2,11 @@ import React from 'react'
 import { Form, Input, Button, Checkbox } from 'antd';
 import { useAuth } from '../hooks/useAuth';
 import '../style/Register.scss'
+import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 
 const Register = () => {
     const { register } = useAuth()
-    
+
 
     return (
         <div className='register-container'>
@@ -17,26 +18,29 @@ const Register = () => {
                 onFinish={register}
             >
                 <Form.Item
-                    label="Email"
                     name="email"
-                    rules={[{type: 'email', required: true, message: 'Please input your email!' }]}
+                    rules={[{ type: 'email', required: true, message: 'Please input your email!' }]}
                 >
-                    <Input />
+                    <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
+
                 </Form.Item>
                 <Form.Item
-                    label="Username"
                     name="username"
                     rules={[{ required: true, message: 'Please input your username!' }]}
                 >
-                    <Input />
+                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+
                 </Form.Item>
 
                 <Form.Item
-                    label="Password"
                     name="password"
                     rules={[{ required: true, message: 'Please input your password!' }]}
                 >
-                    <Input.Password />
+                    <Input
+                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="password"
+                        placeholder="Password"
+                    />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

@@ -14,6 +14,7 @@ import Search from './pages/Search';
 import Setting from './pages/Setting';
 import YourVideo from './pages/YourVideo';
 import './index.css'
+import UseClickOutSide from './hooks/UseClickOutSide';
 
 
 function App() {
@@ -21,9 +22,19 @@ function App() {
   const { user } = useAuth()
   const [SearchList, setSearchList] = useState([])
   const [collapsed, setCollapsed] = useState(false)
+  const [openMenu, setopenMenu] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)
   const location = useLocation()
-  const [activeMenu, setActiveMenu] = useState(false)
+  const ref = useRef()
+
+  const a = UseClickOutSide(ref, () => {
+    if ((window.innerWidth || width) <= 768) {
+
+      setCollapsed(true)
+      setopenMenu(false)
+    }
+    
+  })
 
 
 
@@ -39,27 +50,38 @@ function App() {
     })
   }, [])
   useEffect(() => {
-    if (width >= 735) setCollapsed(false)
-    else if (576 < width < 735) setCollapsed(true)
+    if (width >= 768) setCollapsed(false)
+    else if (576 < width < 768) setCollapsed(true)
 
 
 
   }, [width])
 
-  const onClickMenu = useCallback(() => {
-    setCollapsed(false)
+  const onClickMenu = () => {
 
-  }, [])
+    setopenMenu(!openMenu)
+    setCollapsed(!collapsed)
+
+
+  }
+  // useEffect(() => {
+  //   (width || window.innerWidth) > 768 && setCollapsed(!collapsed)
+
+  // }, [width])
+
+
 
   return (
     <div className="App">
-      <Header onSearchHandle={onSearchHandle} onClickMenu={onClickMenu} />
-      <Layout>
+      <Header onSearchHandle={onSearchHandle} openMenu={openMenu} onClickMenu={onClickMenu} />
+      <Layout style={{ padding: '20px 0' }}>
 
 
         <Sider
-          className='sidebar-container-active'
-          // collapsedWidth={((width || window.innerWidth) < 576 ? 0 : 80)}
+          ref={ref}
+
+          className={`${openMenu ? `sidebar-container-active` : ''}`}
+          collapsedWidth={((width || window.innerWidth) < 576 ? 0 : 80)}
           collapsed={collapsed}
           theme='light'>
           <LeftSide collapsed={collapsed} />
