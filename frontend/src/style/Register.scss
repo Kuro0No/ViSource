@@ -1,4 +1,7 @@
+@import './variable.scss';
+
 .register-container{
+    // min-height: calc(100vh - $height-header);
     width: 400px;
     margin: auto;
     .ant-form-item{

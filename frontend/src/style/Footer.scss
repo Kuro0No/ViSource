@@ -1,18 +1,126 @@
-.site-page-header-ghost-wrapper {
-    padding: 24px;
-    background-color: #f5f5f5;
-  }
+@import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700");
 
-// .ant-page-header-content{
-//     .ant-descriptions-item{
-//         display: block;
-//     }
-// }
+body {
+    font-family: Lato, sans-serif;
+    --col-deepblue: #454e4e;
+}
+a {
+    color: #fff;
+    text-decoration: none;
+}
+footer {
+    width: 100%;
+    position: relative;
+    bottom: 0px;
+}
+footer div {
+    background-color: var(--col-deepblue);
+    margin: -5px 0px 0px 0px;
+    padding: 0px;
+    color: #fff;
+    text-align: center;
+}
+svg {
+    width: 100%;
+    overflow: visible;
+}
 
-@media screen and (max-width: 420px) {
-    .ant-page-header-content{
-    .ant-descriptions-item{
-        display: block;
+.wave {
+    animation: wave 3s linear;
+    animation-iteration-count: infinite;
+    fill: #454e4e;
+}
+.drop {
+    fill: var(--col-deepblue);
+    //   xill: #99000055;
+    animation: drop 3.2s linear infinite normal;
+    stroke: var(--col-deepblue);
+    stroke-width: 0.5;
+    transform: translateY(25px);
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+}
+
+.drop2 {
+    animation-delay: 3s;
+    animation-duration: 3s;
+}
+.drop3 {
+    animation-delay: -2s;
+    animation-duration: 3.4s;
+}
+.drop4 {
+    animation-delay: 1.7s;
+}
+.drop5 {
+    animation-delay: 2.7s;
+    animation-duration: 3.1s;
+}
+.drop6 {
+    animation-delay: -2.1s;
+    animation-duration: 3.2s;
+}
+.gooeff {
+    filter: url(#goo);
+}
+#wave2 {
+    animation-duration: 5s;
+    animation-direction: reverse;
+    opacity: 0.6;
+}
+#wave3 {
+    animation-duration: 7s;
+    opacity: 0.3;
+}
+@keyframes drop {
+    0% {
+        transform: translateY(25px);
+    }
+    30% {
+        transform: translateY(-10px) scale(0.1);
+    }
+    30.001% {
+        transform: translateY(25px) scale(1);
+    }
+    70% {
+        transform: translateY(25px);
+    }
+    100% {
+        transform: translateY(-10px) scale(0.1);
     }
 }
+@keyframes wave {
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.content-footer {
+    display: flex;
+    justify-content: center;
+    a {
+        padding: 5px;
+        border-radius: 5px;
+        span {
+            color: #fff;
+        }
+    }
+    svg {
+        width: 50px;
+        height: 50px;
+    }
+}
+.content-footer-container {
+    position: absolute;
+    top: 66%;
+    right: 40%;
+}
+
+@media screen and (max-width: 500px) {
+    .content-footer {
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
 }

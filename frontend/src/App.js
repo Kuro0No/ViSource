@@ -75,36 +75,39 @@ function App() {
   return (
     <div className="App">
       <Header onSearchHandle={onSearchHandle} openMenu={openMenu} onClickMenu={onClickMenu} />
-      <Layout style={{ padding: '20px 0' }}>
+      <Layout style={{ padding: '20px 0',minHeight: 'calc(100vh - 64px)' }}>
+
+      <Layout >
+
+          <Sider
+            ref={ref}
+
+            className={`${openMenu ? `sidebar-container-active` : ''}`}
+            collapsedWidth={((width || window.innerWidth) < 576 ? 0 : 80)}
+            collapsed={collapsed}
+            theme='light'>
+            <LeftSide collapsed={collapsed} />
+          </Sider>
 
 
-        <Sider
-          ref={ref}
+          <Content>
 
-          className={`${openMenu ? `sidebar-container-active` : ''}`}
-          collapsedWidth={((width || window.innerWidth) < 576 ? 0 : 80)}
-          collapsed={collapsed}
-          theme='light'>
-          <LeftSide collapsed={collapsed} />
-        </Sider>
+            <Routes>
+              <Route path='/' element={<HomePage />} />
+              <Route path='/watch/:id' element={<Detail />} />
+              <Route path='/register' element={<Register />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/history' element={<History />} />
+              <Route path='/saved' element={<Save />} />
+              <Route path='/setting' element={user ? <Setting /> : <Navigate to='/login' />} />
+              <Route path='/your-video' element={<YourVideo />} />
+              <Route path='/search' element={<Search SearchList={SearchList} onSearchHandle={onSearchHandle} />} />
+            </Routes>
+          </Content>
+        </Layout>
 
-
-        <Content>
-
-          <Routes>
-            <Route path='/' element={<HomePage />} />
-            <Route path='/watch/:id' element={<Detail />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/history' element={<History />} />
-            <Route path='/saved' element={<Save />} />
-            <Route path='/setting' element={user ? <Setting /> : <Navigate to='/login' />} />
-            <Route path='/your-video' element={<YourVideo />} />
-            <Route path='/search' element={<Search SearchList={SearchList} onSearchHandle={onSearchHandle} />} />
-          </Routes>
-        </Content>
+        <Footer />
       </Layout>
-      <Footer />
     </div >
   );
 }
