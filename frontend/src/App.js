@@ -16,6 +16,7 @@ import YourVideo from './pages/YourVideo';
 import './index.css'
 import UseClickOutSide from './hooks/UseClickOutSide';
 import Footer from './components/Footer';
+import PostVideo from './pages/PostVideo';
 
 
 function App() {
@@ -101,6 +102,7 @@ function App() {
               <Route path='/saved' element={<Save />} />
               <Route path='/setting' element={user ? <Setting /> : <Navigate to='/login' />} />
               <Route path='/your-video' element={<YourVideo />} />
+              <Route path='/post-video' element={user?  <PostVideo /> : <Navigate to='/login' />} />
               <Route path='/search' element={<Search SearchList={SearchList} onSearchHandle={onSearchHandle} />} />
             </Routes>
           </Content>

@@ -15,6 +15,7 @@ class VideosListSerializer(ModelSerializer):
     author =  UserSerializer(read_only=False)
     # genres= serializers.StringRelatedField(many=True)
     genres = CategorySerializer(read_only=True, many=True)
+    # genres =serializers.PrimaryKeyRelatedField(many=True, read_only=True)
    
     class Meta:
         model= ViSource

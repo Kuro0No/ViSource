@@ -1,4 +1,3 @@
-from urllib import request
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -14,7 +13,8 @@ from user.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics
-from collections import OrderedDict
+from rest_framework import serializers 
+
 
 
 
@@ -103,20 +103,34 @@ def getVideos(request):
 
     if request.method == "POST":
         data = request.data
+        genres= request.data['genres']
+
+        a = CategoryModel.objects.filter(genres__in=genres)
+        id_genres=list(a.values_list('id', flat=True))
+        # print(ViSource.objects.filter(genres__in=id_genres))
+        # id_genres =[]
+        # for value in a.values():
+        #     id_genres.append(value['id'])
+
+        # print(id_genres)
+        
         videos = ViSource.objects.create(
             title= data['title'],
-            uuid = data['uuid'],
-            author = User.objects.get(id=int(data['author']['id'])),
+            author = User.objects.get(id=int(data['author']['user_id'])),
             video = data['video'],
             image = data['image'],
             description = data['description'],
-            created = data['created'],
-            genres = data['genres']
+            # genres = id_genres
+            # created = data['created'],
+            # uuid = data['uuid'],
         )
+        videos.genres.set(id_genres)
+        
         serializers = VideosListSerializer(videos, many=True)
         
 
         return Response(serializers.data)
+        # return Response(True) 
 
 
 @api_view(['GET'])
