@@ -14,6 +14,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics
 from rest_framework import serializers 
+import json
+
 
 
 
@@ -103,34 +105,28 @@ def getVideos(request):
 
     if request.method == "POST":
         data = request.data
-        genres= request.data['genres']
+        userData = data['author'] #nhận về string vì content-type là multipart/form-data;boundar
+        #converstring to dict, sử dụng import json
+        user = json.loads(userData)
+        genres = data['genres'].split(',') #convert to list
 
-        a = CategoryModel.objects.filter(genres__in=genres)
-        id_genres=list(a.values_list('id', flat=True))
-        # print(ViSource.objects.filter(genres__in=id_genres))
-        # id_genres =[]
-        # for value in a.values():
-        #     id_genres.append(value['id'])
-
-        # print(id_genres)
+        id_genres = CategoryModel.objects.filter(genres__in=genres)
+        print()
+    
         
         videos = ViSource.objects.create(
             title= data['title'],
-            author = User.objects.get(id=int(data['author']['user_id'])),
+            author = User.objects.get(id=user['user_id']),
             video = data['video'],
             image = data['image'],
             description = data['description'],
-            # genres = id_genres
-            # created = data['created'],
-            # uuid = data['uuid'],
-        )
+           )
         videos.genres.set(id_genres)
         
-        serializers = VideosListSerializer(videos, many=True)
-        
+        serializers = VideosListSerializer(videos, many=False)
 
-        return Response(serializers.data)
-        # return Response(True) 
+        
+        return Response(serializers.data) 
 
 
 @api_view(['GET'])

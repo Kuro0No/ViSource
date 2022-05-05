@@ -56,8 +56,8 @@ const Save = () => {
                     <div>
                         <Row gutter={[16, 24]}>
                             {savedList.map(item =>
-                                <Col  xs={24} sm={8} lg={6}  style={{position:'relative'}} key={item.id} span={6}>
-                                    <Button onClick={() => handleDeleteSave(item,item.id)} style={{ position: 'absolute', zIndex: 99, right: '8px'}} type="primary" icon={<DeleteOutlined />} danger >
+                                <Col  xs={12} sm={8} lg={6}  style={{position:'relative'}} key={item.id} span={6}>
+                                    <Button onClick={() => handleDeleteSave(item,item.id)} style={{ position: 'absolute', zIndex: 5, right: '8px'}} type="primary" icon={<DeleteOutlined />} danger >
 
                                     </Button>
                                     <Link to={`/watch/${item.saved.uuid}`}>

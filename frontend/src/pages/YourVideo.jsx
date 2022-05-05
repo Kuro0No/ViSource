@@ -49,7 +49,7 @@ const YourVideo = () => {
                         <Row gutter={[16, 24]}>
                             { yourVideoList.map(item => {
 
-                                return <Col xs={24} sm={12} md={8} lg={6} key={item.uuid} >
+                                return <Col xs={12} sm={12} md={8} lg={6} key={item.uuid} >
                                     <Link to={`/watch/${item.uuid}`}>
                                         <Card
                                             hoverable

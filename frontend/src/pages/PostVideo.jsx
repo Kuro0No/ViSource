@@ -7,6 +7,7 @@ import ReactPlayer from 'react-player'
 import { Select } from 'antd';
 import axios from 'axios';
 import { useAuth } from '../hooks/useAuth';
+import '../style/PostVideo.scss'
 
 const { TextArea } = Input;
 
@@ -14,7 +15,7 @@ const PostVideo = () => {
 
     const [fileImg, setFileImg] = useState()
     const [fileVideo, setFileVideo] = useState()
-    const { user } = useAuth()
+    const { user ,authTokens} = useAuth()
     const [desc, setDesc] = useState('')
     const inputImageRef = useRef()
     const inputVideoRef = useRef()
@@ -44,32 +45,36 @@ const PostVideo = () => {
 
     }
     const handleUpload = async () => {
+
         if (fileVideo && title && genres.length > 0) {
+            let form_data = new FormData();
 
-            let form_image = new FormData();
-            let form_video = new FormData();
-
-            form_image.append('image', fileImg);
-            form_video.append('video', fileVideo);
+            // vì phải gửi file nên append
+            form_data.append('image', fileImg);
+            form_data.append('video', fileVideo);
+            form_data.append('author', JSON.stringify(user));
+            form_data.append('title', title);
+            form_data.append('description', desc);
+            form_data.append('genres', genres);
 
             try {
-                const res = await axios.post(`http://localhost:8000/api/list-videos/`, {
-                    author: user,
-                    title: title,
-                    description: desc,
-                    genres: genres,
-                    image: form_image,
-                    video: form_video
-
-                })
-                console.log(res)
+                const res = await axios.post(`http://localhost:8000/api/list-videos/`,
+                    form_data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${String(authTokens.access)}`,
+                            'Content-Type': 'multipart/form-data;boundary=----dfasdadsadq3qw--' //; boundary=something
+                        }
+                    })
                 alert("Sucess")
 
-            } catch(err) {
+            } catch (err) {
                 alert(err)
             }
 
 
+        } else {
+            alert('Maybe some places you forgot to fill up form ')
         }
     }
 
@@ -77,18 +82,19 @@ const PostVideo = () => {
         <div className='post-video-container'>
 
 
+
             <h5>Post Video</h5>
-            <div>
+            <div className='group'>
                 <label htmlFor="title">Title</label>
                 <TextArea value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Enter your title video" id='title' autoSize />
             </div>
-            <div>
+            <div  className='group'>
                 <label htmlFor="Image">Image</label>
                 <div style={{ display: 'flex', flexDirection: 'column', width: 'fit-content' }}>
                     <Image
                         width={200}
                         height={200}
-                        style={{ objectFit: 'cover' }}
+                        style={{ objectFit: 'contain' }}
                         src={fileImg ? fileImg.preview : `http://aquaphor.vn/wp-content/uploads/2016/06/default-placeholder.png`}
 
                     />
@@ -101,7 +107,7 @@ const PostVideo = () => {
                 </div>
 
             </div>
-            <div>
+            <div  className='group'>
                 <label htmlFor="Video">Video</label>
                 <div>
                     {fileVideo && <ReactPlayer controls={true} url={fileVideo.preview} />}
@@ -123,7 +129,7 @@ const PostVideo = () => {
 
 
             </div>
-            <div >
+            <div  className='group'>
                 <label htmlFor="Description">Description</label>
                 <Input.TextArea
                     className='Description'
@@ -133,7 +139,7 @@ const PostVideo = () => {
                     autoSize={{ minRows: 3, maxRows: 7 }}
                 />
             </div>
-            <div >
+            <div  className='group'>
                 <label>Genres</label>
                 <Select
 
