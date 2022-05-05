@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "corsheaders",
     'django_filters',
     'user',
+    'whitenoise.middleware.WhiteNoiseMiddleWare',
 
 ]
 
@@ -199,3 +200,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 ALLOWED_HOSTS=['*']
 
 AUTH_USER_MODEL ='user.User'
+
+import dj_database_url
+prod_db=dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
