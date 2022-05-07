@@ -16,7 +16,7 @@ const Save = () => {
         if(user){
 
             async function getData() {
-                const res = await axios.get(`http://localhost:8000/api/user/saved-video/${user?.user_id}/`, {
+                const res = await axios.get(`https://visourcebe.herokuapp.com/api/user/saved-video/${user?.user_id}/`, {
                     headers: {
                         Authorization: `Bearer ${authTokens.access}`
                     }
@@ -28,7 +28,7 @@ const Save = () => {
         }
     }, [])
     const handleDeleteSave = async(item,id) => {
-        const res = await axios.delete(`http://localhost:8000/api/user/saved-video/${user?.user_id}/?delete=${item.saved.uuid}`, {
+        const res = await axios.delete(`https://visourcebe.herokuapp.com/api/user/saved-video/${user?.user_id}/?delete=${item.saved.uuid}`, {
             headers: {
                 Authorization: `Bearer ${authTokens.access}`
             }

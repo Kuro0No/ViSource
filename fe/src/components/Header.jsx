@@ -18,7 +18,7 @@ const Header = ({ onSearchHandle, onClickMenu, openMenu }) => {
 
   const onSearch = async () => {
     if (search) {
-      const res = await axios.get(`http://localhost:8000/api/search-video/?search=${search}`)
+      const res = await axios.get(`https://visourcebe.herokuapp.com/api/search-video/?search=${search}`)
       onSearchHandle(res.data)
 
       navi(`search/?search=${search}`)

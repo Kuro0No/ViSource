@@ -18,7 +18,7 @@ const YourVideo = () => {
         if(user){
 
             async function getData() {
-                const res = await axios.get(`http://localhost:8000/api/user/your-videos/${user.user_id}/`, {
+                const res = await axios.get(`https://visourcebe.herokuapp.com/api/user/your-videos/${user.user_id}/`, {
                     headers: {
                         Authorization: `Bearer ${authTokens.access}`
                     }

@@ -43,7 +43,7 @@ const Setting = () => {
 
 
         try {
-            const res = await axios.put(`http://localhost:8000/api/user/update_avatar/${user.user_id}/`, form_data, {
+            const res = await axios.put(`https://visourcebe.herokuapp.com/api/user/update_avatar/${user.user_id}/`, form_data, {
                 headers: {
                     Authorization: `Bearer ${String(authTokens.access)}`,
                     'Content-Type': 'multipart/form-data;boundary=----dfasdadsadq3qw--' //; boundary=something
@@ -73,7 +73,7 @@ const Setting = () => {
 
     useEffect(() => {
         async function getAvatar() {
-            const res = await axios.get(`http://localhost:8000/api/user/profile/${user.user_id}/`, {
+            const res = await axios.get(`https://visourcebe.herokuapp.com/api/user/profile/${user.user_id}/`, {
                 headers: {
                     Authorization: `Bearer ${authTokens.access}`
                 }
@@ -86,7 +86,7 @@ const Setting = () => {
     const onFinish = async () => {
         try {
             setLoading(true)
-            const res = await axios.put(`http://localhost:8000/api/user/update_name/${user.user_id}/`, {
+            const res = await axios.put(`https://visourcebe.herokuapp.com/api/user/update_name/${user.user_id}/`, {
                 name: username,
                 password: passwordValue
             }, {
@@ -108,7 +108,7 @@ const Setting = () => {
             if (newPassword !== confirmNewPassword) {
                 alert(`Current and Confirm password doesn't match `)
             } else {
-                await axios.put(`http://localhost:8000/api/user/change_password/${user.user_id}/`, {
+                await axios.put(`https://visourcebe.herokuapp.com/api/user/change_password/${user.user_id}/`, {
                     old_password: currentPassword,
                     password: newPassword,
                     password2: confirmNewPassword

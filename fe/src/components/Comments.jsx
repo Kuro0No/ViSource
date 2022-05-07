@@ -17,7 +17,7 @@ const RepComments = ({ comment_id, openRepCmt, setOpenRepCmt }) => {
     const [repCmtContent, setRepCmtContent] = useState(null)
     useEffect(() => {
         async function getData() {
-            const res = await axios.get(`http://localhost:8000/api/get-rep-comments/${comment_id}`)
+            const res = await axios.get(`https://visourcebe.herokuapp.com/api/get-rep-comments/${comment_id}`)
             setRepCmt(res.data)
         }
         getData()
@@ -29,7 +29,7 @@ const RepComments = ({ comment_id, openRepCmt, setOpenRepCmt }) => {
     const handleSubmitRepCmt = async (id) => {
         if (repCmtContent) {
 
-            const res = await axios.post(`http://localhost:8000/api/get-rep-comments/${id}`, {
+            const res = await axios.post(`https://visourcebe.herokuapp.com/api/get-rep-comments/${id}`, {
                 content: repCmtContent,
                 user: {
                     name: user.name,
@@ -48,7 +48,7 @@ const RepComments = ({ comment_id, openRepCmt, setOpenRepCmt }) => {
     const handleDeleteRepCmt = async (id) => {
 
         try {
-            const res = await axios.delete(`http://127.0.0.1:8000/api/get-rep-comments/${id}`)
+            const res = await axios.delete(`https://visourcebe.herokuapp.com/api/get-rep-comments/${id}`)
             const data = repCmt.filter(item => item.id !== id)
             setRepCmt(data)
         } catch {
@@ -105,7 +105,7 @@ const Comments = ({ cmtList, setCmtList }) => {
     const handleDeleteCmt = async (idCmt) => {
 
         try {
-            const res = await axios.delete(`http://localhost:8000/api/get-comments/${idCmt}`)
+            const res = await axios.delete(`https://visourcebe.herokuapp.com/api/get-comments/${idCmt}`)
             const data = cmtList.filter(item => item.id !== idCmt)
             setCmtList(data)
         } catch {

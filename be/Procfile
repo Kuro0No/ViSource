@@ -1,1 +1,2 @@
-web: waitress-serve --port=$PORT visourcedjango.wsgi:application
+release: python manage.py migrate
+web: gunicorn backend.wsgi --log-file - --log-level debug --preload --workers 1

@@ -58,7 +58,7 @@ const PostVideo = () => {
             form_data.append('genres', genres);
 
             try {
-                const res = await axios.post(`http://localhost:8000/api/list-videos/`,
+                const res = await axios.post(`https://visourcebe.herokuapp.com/api/list-videos/`,
                     form_data,
                     {
                         headers: {

@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
     const register = async (e) => {
 
         try {
-            const res = await axios.post(`http://localhost:8000/api/user/register/`, {
+            const res = await axios.post(`https://visourcebe.herokuapp.com/api/user/register/`, {
                 email: e.email,
                 name: e.username,
                 password: e.password,
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
         try {
 
             axios
-                .post(`http://localhost:8000/api/token/`, {
+                .post(`https://visourcebe.herokuapp.com/api/token/`, {
                     email: e.email,
                     password: e.password,
                 })
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
         if (user) {
 
             async function getAva() {
-                const res = await axios.get(`http://localhost:8000/api/user/profile/${user.user_id}/`, {
+                const res = await axios.get(`https://visourcebe.herokuapp.com/api/user/profile/${user.user_id}/`, {
                     headers: {
                         Authorization: `Bearer ${String(authTokens.access)}`,
                        

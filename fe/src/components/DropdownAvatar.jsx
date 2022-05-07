@@ -41,7 +41,7 @@ const DropdownAvatar = ({ avatar }) => {
                 < Avatar
                     style={{ alignSelf: 'center' }}
                     size={'large'}
-                    src={`http://localhost:8000/base/media/${avatar}`}
+                    src={`https://visourcebe.herokuapp.com/base/media/${avatar}`}
                 />
             </Dropdown>
 

@@ -21,7 +21,7 @@ const DescriptionVideo = ({ detail }) => {
     const [isSeemore, setIsSeeMore] = useState(true)
     const handleOkDelete = async () => {
         try {
-            await axios.delete(`http://127.0.0.1:8000/api/list-videos/${id}/`)
+            await axios.delete(`https://visourcebe.herokuapp.com/api/list-videos/${id}/`)
             setIsModalVisible(false)
             navigate('/')
         } catch {
@@ -31,7 +31,7 @@ const DescriptionVideo = ({ detail }) => {
     const handleSaveVideo = async () => {
         if(user){
             try {
-                const res = await axios.post(`http://localhost:8000/api/user/saved-video/${user.user_id}/`, {
+                const res = await axios.post(`https://visourcebe.herokuapp.com/api/user/saved-video/${user.user_id}/`, {
                     user: user,
                     saved: detail
                 },

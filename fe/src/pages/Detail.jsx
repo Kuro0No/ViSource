@@ -26,7 +26,7 @@ const Detail = () => {
 
     useEffect(() => {
         async function getData() {
-            const res = await axios.get(`http://localhost:8000/api/list-videos/${id}/`)
+            const res = await axios.get(`https://visourcebe.herokuapp.com/api/list-videos/${id}/`)
             setDetail(res.data)
         }
         getData()
@@ -34,7 +34,7 @@ const Detail = () => {
 
     useEffect(() => {
         async function getData() {
-            const res = await axios.get(`http://localhost:8000/api/get-comments/${id}`)
+            const res = await axios.get(`https://visourcebe.herokuapp.com/api/get-comments/${id}`)
             setCmtList(res.data)
         }
         getData()
@@ -53,7 +53,7 @@ const Detail = () => {
 
         if (cmt) {
             setLoadSendCmt(true)
-            const res = await axios.post(`http://localhost:8000/api/get-comments/${id}`, {
+            const res = await axios.post(`https://visourcebe.herokuapp.com/api/get-comments/${id}`, {
                 content: cmt,
                 user: {
                     name: user.name,
@@ -93,7 +93,7 @@ const Detail = () => {
                     {(width || window.innerWidth) > 992 &&
                         <div>
                             < Col className='d-flex'>
-                                <Avatar className='me-3' src={`${user ? `http://localhost:8000/base/media/${avatar}` : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwbGozsS9QP10p16rZiCrQD0koXVkI4c7LwUHab9dkmFRcN0VqCkB37f2y0EnySItwykg&usqp=CAU`} `} />
+                                <Avatar className='me-3' src={`${user ? `https://visourcebe.herokuapp.com/base/media/${avatar}` : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwbGozsS9QP10p16rZiCrQD0koXVkI4c7LwUHab9dkmFRcN0VqCkB37f2y0EnySItwykg&usqp=CAU`} `} />
 
                                 <div style={{ width: '100%' }}>
                                     <TextArea
@@ -121,7 +121,7 @@ const Detail = () => {
                 {(window.innerWidth || width) <= 992 &&
                     <div style={{ width: '100%' }}>
                         < Col span={24} className='d-flex'>
-                            <Avatar className='me-3' src={`${user ? `http://localhost:8000/base/media/${avatar}` : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwbGozsS9QP10p16rZiCrQD0koXVkI4c7LwUHab9dkmFRcN0VqCkB37f2y0EnySItwykg&usqp=CAU`} `} />
+                            <Avatar className='me-3' src={`${user ? `https://visourcebe.herokuapp.com/base/media/${avatar}` : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwbGozsS9QP10p16rZiCrQD0koXVkI4c7LwUHab9dkmFRcN0VqCkB37f2y0EnySItwykg&usqp=CAU`} `} />
 
                             <div style={{ width: '100%' }}>
                                 <TextArea

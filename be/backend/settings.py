@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -191,19 +193,24 @@ USE_TZ = True
 STATIC_URL = 'static/'
 MEDIA_URL = '/base/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'base/media/')
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ORIGINS = [
-    'https://still-atoll-89333.herokuapp.com/',
-    'http://still-atoll-89333.herokuapp.com/'
-]
+CORS_ALLOW_ALL_ORIGINS = True
 ALLOWED_HOSTS=['*']
 
 AUTH_USER_MODEL ='user.User'
 
 
+django_heroku.settings(locals())
+
+prod_db=dj_database_url.config(conn_max_age=600,ssl_require=True)
+DATABASES['default'].update(prod_db)

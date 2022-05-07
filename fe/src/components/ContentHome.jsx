@@ -8,7 +8,7 @@ import ListAnimation from './ListAnimation';
 
 const ContentHome = () => {
   const { Content } = Layout
-  const { list, listMusic, listAnimation } = UseFetch(`http://127.0.0.1:8000/api/list-videos/`, `http://localhost:8000/api/search-video/?genres=1`, `http://localhost:8000/api/search-video/?genres=3`)
+  const { list, listMusic, listAnimation } = UseFetch(`https://visourcebe.herokuapp.com/api/list-videos/`, `https://visourcebe.herokuapp.com/api/search-video/?genres=1`, `https://visourcebe.herokuapp.com/api/search-video/?genres=3`)
 
   return (
     <Content >

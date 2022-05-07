@@ -16,7 +16,7 @@ const RelatedDetail = ({ detail,currentLoad }) => {
     useEffect(() => {
         async function getData() {
             setLoading(true)
-            const res = await axios.get(`http://localhost:8000/api/get-related/${id}/?page=${currentLoad}`)
+            const res = await axios.get(`https://visourcebe.herokuapp.com/api/get-related/${id}/?page=${currentLoad}`)
             setRelatedVideo(res.data.results)
             setLoading(false)
         }
